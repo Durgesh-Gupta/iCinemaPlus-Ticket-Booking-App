@@ -1,0 +1,16 @@
+var JWT = require("jsonwebtoken");
+const fetchuser = (req, res, next) => {
+  const token = req.header("auth-token");
+  if (!token) {
+    res.status(401).send({ error: "Please add authentication token" });
+  }
+  try {
+    const data = JWT.verify(token, "shhhh");
+    req.user = data.user;
+    next();
+  } catch (error) {
+    res.status(401).send({ error: "Please authenticate using a valid token" });
+  }
+};
+
+module.exports = fetchuser;
