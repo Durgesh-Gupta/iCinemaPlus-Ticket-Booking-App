@@ -4,17 +4,38 @@ const router = express.Router();
 const Movies = require("../Model/Movies");
 const Theater = require("../Model/Theater");
 const adminauth = require("./Middleware/adminauth");
+const multer = require("multer")
+
+//Storage for images
+const storage = multer.diskStorage({
+  destination:function(request,file,callback){
+    callback(null,"./public/uploads/images")
+  },
+//add back the extension
+filename:function(request,file,callback){
+  callback(null,Date.now()+file.originalname)
+}
+})
+//upload parameter for multer
+const upload=multer({
+  storage:storage,
+  limits:{
+    fieldSize:1024*1024*3
+  }
+})
+
+
 
 //Router 1: Adding Movies at admin side
 router.post(
   "/addmov",
-  adminauth,
+  adminauth,upload.single('image'),
   [
     body("title").isLength({ min: 2 }),
     body("description").isLength({ min: 5 }),
   ],
   async (req, res) => {
-    const { title, description, genre, release_date } = req.body;
+    const { title, description, genre, release_date,image } = req.body;
 
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -25,8 +46,8 @@ router.post(
     if (movies) {
       return res.status(400).json({ error: "Sorry Movie already exists" });
     }
-
-    const movie = new Movies({ title, description, genre, release_date });
+   
+    const movie = new Movies({ title, description, genre, release_date,image });
     const saveMovie = await movie.save();
     res.send(saveMovie);
   }

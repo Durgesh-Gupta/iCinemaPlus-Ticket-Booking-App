@@ -6,6 +6,7 @@ const connectToMongo=require('./db')
 connectToMongo()
 
 app.use(express.json())
+app.use(express.static(__dirname+"./public/"))
 
 //Routes
 app.use("/api/auth",require("./Routes/auth"))

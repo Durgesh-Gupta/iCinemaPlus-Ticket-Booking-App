@@ -26,7 +26,9 @@ const MovieSchema = new Schema({
     IS_DELETE:{
         type:Boolean,
         default:false
-    }
+    },image:{
+        type:String
+      }
 })
 
 const Movies = mongoose.model('movies',MovieSchema)
