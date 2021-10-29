@@ -16,8 +16,8 @@ const MovieSchema = new Schema({
     },
     status:{
         type:String,
-        enum:["Current","Comming Soon","disable"],
-        default:"Comming Soon"
+        enum:["Current","Coming Soon","disable"],
+        default:"Coming Soon"
     },
     release_date:{
         type:Date,
