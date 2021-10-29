@@ -19,12 +19,12 @@ router.post("/createShow", async (req, res) => {
   if (!theaters) {
     return res.status(400).json({ error: "Sorry Theater not exists" });
   }
-  let shows = await ShowTime.findOne({ time });
-  if (!shows) {
-    return res
-      .status(400)
-      .json({ error: "Sorry this Show time is not Available" });
-  }
+  // let shows = await ShowTime.findOne({ time });
+  // if (!shows) {
+  //   return res
+  //     .status(400)
+  //     .json({ error: "Sorry this Show time is not Available" });
+  // }
 
   const show = new ShowTime({ movie, theater, time });
   const SaveShow = await show.save();

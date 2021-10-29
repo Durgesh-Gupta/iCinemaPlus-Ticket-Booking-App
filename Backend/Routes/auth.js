@@ -60,13 +60,13 @@ router.post(
       if (!user) {
         return res
           .status(400)
-          .json({ error: "Please try to login using correct Credentials" });
+          .json({ error: "Email Please try to login using correct Credentials" });
       }
       const passwordCompare = await bcrypt.compare(password, user.password);
       if (!passwordCompare) {
         return res
           .status(400)
-          .json({ error: "Please try to login using correct Credentials" });
+          .json({ error: "Password Please try to login using correct Credentials" });
       }
       const data = {
         user: {

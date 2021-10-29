@@ -13,7 +13,7 @@ const SeatSchema=new Schema({
     },
     status:{
         type:Boolean,
-        default:true  //available
+        default:false  //booked
     }
 })
 const Seat=mongoose.model("seats",SeatSchema)

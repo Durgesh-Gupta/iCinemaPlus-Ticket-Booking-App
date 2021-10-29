@@ -22,17 +22,31 @@ router.post("/select",fetchuser,async (req,res)=>{
     // Adding reservation
     const reservation = new Reservation({user,showtime,seat_no:saveSeat._id });
     const saveReservation = await reservation.save();
-    res.send({saveReservation,saveSeat});
+    res.send({saveReservation});
 })
 //Route 2:Get User Booking Details
 router.post("/getdetail",fetchuser,async (req,res)=>{
     const userId=req.user.id;
-    const reservation=await Reservation.find({userId})
-     
-    return res.json(reservation)
+    const reservation=await Reservation.find({userId})  
+    res.json(reservation)
+})
+//Route 3: Cancel Booking---id of reservation
+router.post("/cancel/:id",fetchuser,async (req,res)=>{
+ let reservation= await Reservation.findById(req.params.id);
+ //check booking
+ if(!reservation){
+     res.status(404).send("Booking Not Found!")
+ }
+ //Match booking user
+ if(reservation.user.toString()!==req.user.id){
+     return res.status(401).send("Unauthorized User")
+ }
+ //reservation cancelled
+reservation=await Reservation.findByIdAndDelete(req.params.id)
+// Seat removell
+const seat=await Seats.findByIdAndDelete(reservation.seat_no)
+res.json({"Success":"Booking is Cancelled",reservation,seat})
 
 })
-//Route 3: Cancel Booking
-
 
 module.exports=router
