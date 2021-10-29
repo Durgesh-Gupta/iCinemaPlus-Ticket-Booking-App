@@ -71,7 +71,7 @@ router.put("/updatemov/:id", adminauth, async (req, res) => {
 });
 //Route 3:Delete Movie  -Admin side
 
-router.delete("/deletemov/:id", adminauth, async (req, res) => {
+router.put("/deletemov/:id", adminauth, async (req, res) => {
   //Find the movie
   let movie = await Movies.findById(req.params.id);
   if (!movie) {
@@ -79,7 +79,10 @@ router.delete("/deletemov/:id", adminauth, async (req, res) => {
   }
 
   //Deleting movies
-  movie = await Movies.findByIdAndDelete(req.params.id);
+  movie = await Movies.findByIdAndUpdate(req.params.id ,{
+   IS_DELETE:true
+  }
+);
 
   res.json({ Success: "Movie deleted", movie });
 });

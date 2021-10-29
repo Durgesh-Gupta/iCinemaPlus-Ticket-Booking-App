@@ -22,6 +22,10 @@ const MovieSchema = new Schema({
     release_date:{
         type:Date,
         required:true
+    },
+    IS_DELETE:{
+        type:Boolean,
+        default:false
     }
 })
 

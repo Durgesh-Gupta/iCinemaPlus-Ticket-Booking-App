@@ -15,6 +15,10 @@ const ShowTimeSchema = new Schema({
         type:String,
         enum:["9:00 AM","12:00 PM","6:00 PM"],
         required:true,
+    },
+    IS_DELETE:{
+        type:Boolean,
+        default:false
     }
 })
 const ShowTime =mongoose.model("showtimes",ShowTimeSchema)

@@ -121,9 +121,9 @@ router.put("/updateuser/:id", adminauth, async (req, res) => {
 });
 
 //Delete user
-router.delete("/deleteuser/:id",adminauth,async(req,res)=>{
+router.put("/deleteuser/:id",adminauth,async(req,res)=>{
   
-    user = await User.findByIdAndDelete(req.params.id);
+    user = await User.findByIdAndUpdate(req.params.id,{IS_DELETE:true});
 
     res.json({ Success: "User Deleted deleted", user });
   });

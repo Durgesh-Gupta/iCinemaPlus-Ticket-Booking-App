@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
+const adminauth =require("./Middleware/adminauth")
 const ShowTime = require("../Model/showtime");
 const Movies = require("../Model/Movies");
 const Theater = require("../Model/Theater");
@@ -55,5 +56,20 @@ router.put("/updateShow/:id", async (req, res) => {
 
   res.json({ Show });
 });
+// Delete Showtime
+router.put("/deleteshow/:id", adminauth, async (req, res) => {
+  //Find the movie
+  let show = await ShowTime.findById(req.params.id);
+  if (!show) {
+    return res.status(404).send("Show Not Found");
+  }
 
+  //Deleting movies
+  show = await ShowTime.findByIdAndUpdate(req.params.id ,{
+   IS_DELETE:true
+  }
+);
+
+  res.json({ Success: "Show is deleted", show });
+});
 module.exports = router;
