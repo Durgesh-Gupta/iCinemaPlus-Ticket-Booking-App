@@ -6,6 +6,7 @@ const User = require("../Model/User");
 var JWT = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 
+const authTable=require("../Model/AuthTable")
 const fetchuser = require("./Middleware/fetchuser");
 const adminauth = require("./Middleware/adminauth");
 
@@ -40,8 +41,12 @@ router.post(
         id: user.id,
       },
     };
-    const authtoken = JWT.sign(data, "shhhh");
-    res.json(authtoken);
+    const authtoken = JWT.sign({data}, "shhhh",{ expiresIn: '7d' });
+    const authT = new authTable({  user:data.user.id,
+      token:authtoken});
+    const saveAuth = await authT.save();
+     
+    res.json({authtoken,saveAuth});
   }
 );
 //Authenticate User
