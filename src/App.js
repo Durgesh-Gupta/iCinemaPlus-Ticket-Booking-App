@@ -5,10 +5,11 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import NowShowing from "./Components/NowShowing"
 import ComingSoon from "./Components/ComingSoon"
 import Cinemas from "./Components/Cinemas"
+import MovieState from "./State/MovieState";
 
 function App() {
   return (
-    <>
+    <MovieState>
       <Router>
         <NavBar />
         <Switch>
@@ -26,7 +27,7 @@ function App() {
           </Route>
         </Switch>
       </Router>
-    </>
+    </MovieState>
   );
 }
 

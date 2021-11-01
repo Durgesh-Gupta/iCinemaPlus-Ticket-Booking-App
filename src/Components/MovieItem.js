@@ -1,8 +1,11 @@
-import React from 'react'
+import React,{useContext} from 'react'
 import { Link } from 'react-router-dom'
+import MovieContext from "../State/MovieContext"
 
 const MovieItem = (props) => {
     console.log(props)
+    const context =useContext(MovieContext)
+
     return (
             <div className="card" style={{ width: "18rem" }}>
             <img src="..." className="card-img-top" alt="..." />
@@ -12,7 +15,7 @@ const MovieItem = (props) => {
                 {props.movie.description}
               </p>
               <Link to="#" className="btn btn-primary" >
-                Go somewhere
+                Book Show
               </Link>
             </div>
           </div>
