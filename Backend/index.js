@@ -4,6 +4,9 @@ const port = 5000
 //connecting to Mongo
 const connectToMongo=require('./db')
 connectToMongo()
+//
+var cors = require('cors')
+app.use(cors())
 
 app.use(express.json())
 app.use(express.static(__dirname+"./public/"))
