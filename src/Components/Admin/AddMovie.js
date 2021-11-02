@@ -5,42 +5,32 @@ const AddMovie = () => {
   const context = useContext(MovieContext);
   const { addMovie } = context;
 
-  const [Movie, setMovie] = useState({
-    title: "",
-    description: "",
-    release_date: "",
-    genre: "",
-  });
-
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [image, setImage] = useState("");
+  const [genre, setGenre] = useState("");
+  const [release_date, setRelease] = useState("");
   
-const options = [
-  {
-    label: "Coming Soon",
-    value: "Coming Soon",
-  },
-  {
-    label: "Current",
-    value: "Current",
-  }
-]
-  const onChange = (e) => {
-    setMovie({ ...Movie, [e.target.name]: e.target.value });
+  const onChangeFile = (e) => {
+    setImage(e.target.files[0] );
   };
   const handleClick = (e) => {
     e.preventDefault();
-    addMovie(
-      Movie.title,
-      Movie.description,
-      Movie.release_date,
-      Movie.genre,
-      Movie.status,
-    );
+    const formData =new FormData()
+
+    formData.append("title",title)
+    formData.append("description",description)
+    formData.append("image", image)
+    formData.append("release_date", release_date)
+    formData.append("genre", genre)
+    console.log()
+    addMovie(formData);
     // setMovie({title:"",description:"",status:"",release_date:"",genre:""})
   };
   return (
     <div className="container my-3">
       <h2>Add Movies</h2>
-      <form className="my-3">
+      <form className="my-3" encType="multipart/form-data">
         <div className="mb-3">
           <label htmlFor="title" className="form-label">
             Title
@@ -50,9 +40,24 @@ const options = [
             className="form-control"
             id="title"
             name="title"
-            value={Movie.title}
-            onChange={onChange}
+            value={title}
+            onChange={(e)=>setTitle(e.target.value)}
             minLength={3}
+            required
+          />
+        </div>
+        <div className="mb-3">
+          <label htmlFor="image" className="form-label">
+            Upload Poster
+          </label>
+          <input
+            type="file"
+            className="form-control"
+            id="image"
+            name="iamge"
+            // value={image}
+            onChange={onChangeFile}
+            minLength={5}
             required
           />
         </div>
@@ -65,8 +70,8 @@ const options = [
             className="form-control"
             id="description"
             name="description"
-            value={Movie.description}
-            onChange={onChange}
+            value={description}
+            onChange={(e)=>setDescription(e.target.value)}
             minLength={5}
             required
           />
@@ -80,9 +85,8 @@ const options = [
             className="form-control"
             id="release_date"
             name="release_date"
-            value={Movie.release_date}
-            onChange={onChange}
-            minLength={5}
+            value={release_date}
+            onChange={(e)=>setRelease(e.target.value)}
             required
           />
         </div>
@@ -95,13 +99,13 @@ const options = [
             className="form-control"
             id="genre"
             name="genre"
-            value={Movie.genre}
-            onChange={onChange}
+            value={genre}
+            onChange={(e)=>setGenre(e.target.value)}
             required
           />
         </div>
         <button
-          disabled={Movie.title.length < 2 || Movie.description.length < 5}
+          // disabled={Movie.title.length < 2 || Movie.description.length < 5}
           type="submit"
           className="btn btn-primary"
           onClick={handleClick}

@@ -26,7 +26,8 @@ const MovieSchema = new Schema({
         type:Boolean,
         default:false
     },image:{
-        type:String
+        type:String,
+        default:""
       }
 })
 

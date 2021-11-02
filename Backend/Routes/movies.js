@@ -4,38 +4,40 @@ const router = express.Router();
 const Movies = require("../Model/Movies");
 const Theater = require("../Model/Theater");
 const adminauth = require("./Middleware/adminauth");
-const multer = require("multer")
+const multer = require("multer");
 
 //Storage for images
 const storage = multer.diskStorage({
-  destination:function(request,file,callback){
-    callback(null,"./public/uploads/images")
+  destination: function (request, file, callback) {
+    callback(null, "./public/uploads/images");
   },
-//add back the extension
-filename:function(request,file,callback){
-  callback(null,Date.now()+file.originalname)
-}
-})
+  //add back the extension
+  filename: function (request, file, callback) {
+    callback(null, Date.now() + file.originalname);
+  },
+});
 //upload parameter for multer
-const upload=multer({
-  storage:storage,
-  limits:{
-    fieldSize:1024*1024*3
-  }
-})
-
-
+const upload = multer({
+  storage: storage,
+  limits: {
+    fieldSize: 1024 * 1024 * 3,
+  },
+});
 
 //Router 1: Adding Movies at admin side
 router.post(
   "/addmov",
-  adminauth,upload.single('image'),
+  upload.single("image"),
+  adminauth,
   [
-    body("title","Enter Valid Tital for Movie").isLength({ min: 2 }),
-    body("description","Enter valid Desc for Movies!").isLength({ min: 5 }),
+    body("title", "Enter Valid Tital for Movie").isLength({ min: 2 }),
+    body("description", "Enter valid Desc for Movies!").isLength({ min: 5 }),
   ],
   async (req, res) => {
-    const { title, description, genre, release_date,image,status } = req.body;
+    console.log(req.formData);
+    const { title, description, genre, release_date, status } = req.body;
+    const { image } = req.file.filename;
+    console.log(title);
 
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -46,10 +48,18 @@ router.post(
     if (movies) {
       return res.status(400).json({ error: "Sorry Movie already exists" });
     }
-   
-    const movie = new Movies({ title, description, genre,status, release_date,image });
-    const saveMovie = await movie.save();
-    res.send(saveMovie);
+
+    const movie = new Movies({
+      title,
+      description,
+      genre,
+      status,
+      release_date,
+      image,
+    });
+    movie.save();
+    // const saveMovie = await movie.save();
+    // res.send(saveMovie);
   }
 );
 
@@ -100,17 +110,16 @@ router.put("/deletemov/:id", adminauth, async (req, res) => {
   }
 
   //Deleting movies
-  movie = await Movies.findByIdAndUpdate(req.params.id ,{
-   IS_DELETE:true
-  }
-);
+  movie = await Movies.findByIdAndUpdate(req.params.id, {
+    IS_DELETE: true,
+  });
 
   res.json({ Success: "Movie deleted", movie });
 });
 
 //Route 4: Get All Movies
 router.get("/allmovies", async (req, res) => {
-  const movies = await Movies.find({"IS_DELETE":false}).exec();
+  const movies = await Movies.find({ IS_DELETE: false }).exec();
   res.json(movies);
 });
 
@@ -122,5 +131,3 @@ router.post("/createthea", adminauth, (req, res) => {
 });
 
 module.exports = router;
-
-
