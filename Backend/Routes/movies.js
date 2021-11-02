@@ -31,11 +31,11 @@ router.post(
   "/addmov",
   adminauth,upload.single('image'),
   [
-    body("title").isLength({ min: 2 }),
-    body("description").isLength({ min: 5 }),
+    body("title","Enter Valid Tital for Movie").isLength({ min: 2 }),
+    body("description","Enter valid Desc for Movies!").isLength({ min: 5 }),
   ],
   async (req, res) => {
-    const { title, description, genre, release_date,image } = req.body;
+    const { title, description, genre, release_date,image,status } = req.body;
 
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -47,7 +47,7 @@ router.post(
       return res.status(400).json({ error: "Sorry Movie already exists" });
     }
    
-    const movie = new Movies({ title, description, genre, release_date,image });
+    const movie = new Movies({ title, description, genre,status, release_date,image });
     const saveMovie = await movie.save();
     res.send(saveMovie);
   }
@@ -110,7 +110,7 @@ router.put("/deletemov/:id", adminauth, async (req, res) => {
 
 //Route 4: Get All Movies
 router.get("/allmovies", async (req, res) => {
-  const movies = await Movies.find();
+  const movies = await Movies.find({"IS_DELETE":false}).exec();
   res.json(movies);
 });
 

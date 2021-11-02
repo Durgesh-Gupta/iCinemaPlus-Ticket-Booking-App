@@ -2,7 +2,7 @@ var JWT = require("jsonwebtoken");
 const adminauth = (req, res, next) => {
   const token = req.header("auth-token");
   if (!token) {
-    res.status(401).send({ error: "Please add authentication token" });
+    res.status(401).send({ error: "Please add Admin authentication token" });
   }
   try {
     const data = JWT.verify(token, "shhhh");

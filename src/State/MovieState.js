@@ -1,69 +1,96 @@
-import react,{useState} from "react";
+import react, { useState } from "react";
 import MovieContext from "./MovieContext";
 
 const MovieState = (props) => {
-    const movies = [
-        {
-          _id: "617aaa79924c8ebcd67eab4f",
-          title: "Avengers",
-          description: "Marvel Cinematic Universe",
-          genre: "Action,comic",
-          status: "Comming Soon",
-          release_date: "2020-07-10T00:00:00.000Z",
-          __v: 0,
-          IS_DELETE: true,
-        },
-        {
-          _id: "617bb1bccad30c852e3eba1a",
-          title: "One Piece",
-          description: "Pirates adventure",
-          genre: "Action,comic",
-          status: "Comming Soon",
-          release_date: "2020-02-10T00:00:00.000Z",
-          IS_DELETE: false,
-          __v: 0,
-        },
-      ];
-      const [Movies, setMovies] = useState(movies);
-
-      //Add Movies
-      const addMovie =async (title,description,genre,status,release_date)=>{
-        
-
-        setMovies(movies.concat(movies))
-      }
-      //Delete Movies
-      const deleteMovie =(id)=>{
-        const newMovie = movies.filter((movie)=>{
-          return movie._id!==id
-        })
-        setMovies(newMovie)
-      }
-
-      //Edit Movie
-      const editMovie=async (id,title,description,status,genre,release_date)=>{
-        //API CALL
-        const response = await
-      for(let i=0;i<movies.length;i++){
-        const element=movies[i]
-        if(element._id===id){
-          element.title=title,
-          element.description=description,
-          element.status=status,
-          element.genre=genre,
-          element.release_date=release_date
-        }
-      }
-
+  const host = "http://localhost:5000";
+  const initial = [];
+  const [Movies, setMovies] = useState(initial);
+  //Get Movies
+  const getMovies = async () => {
+    const response = await fetch(`${host}/api/movies/allmovies`, {
+      method: "GET",
+      headers: {
+        "content-type": "application/json",
+      },
+    });
+    const json = await response.json();
+    setMovies(json);
+  };
+  //Add Movies
+  const addMovie = async (title, description, release_date, genre) => {
+    console.log(title, description, release_date, genre)
+    const Today=new Date()
+    const rd=new Date(release_date)
+    if (Today<rd){
+      var statusid= "Coming Soon"
     }
+    else{
+      var statusid= "Current"
+    }
+    const response = await fetch(`${host}/api/movies/addmov`, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        "auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbiI6eyJpZCI6IjYxNzdlNzE5YjY3NWY3ODFkOWM2Mzc1NCJ9LCJpYXQiOjE2MzU3NzIyOTN9.JTb-sINP8sXKpJ7Bc2rCLVVDejeUla3gGFOH9yS6vAM",
+      },
+      body: JSON.stringify({ title, description, genre, release_date,status:`${statusid}` }),
+    });
+    const movie = await response.json();
+    setMovies(Movies.concat(movie));
+  };
 
+  //Delete Movies
+  const deleteMovie = async (id) => {
+    //API CAll
+    const response = await fetch(`${host}/api/movies/deletemov/${id}`, {
+      method: "PUT",
+      headers: {
+        "content-type": "application/json",
+        "auth-token":
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbiI6eyJpZCI6IjYxNzdlNzE5YjY3NWY3ODFkOWM2Mzc1NCJ9LCJpYXQiOjE2MzU3NzIyOTN9.JTb-sINP8sXKpJ7Bc2rCLVVDejeUla3gGFOH9yS6vAM",
+      },
+    });
+    const json = await response.json();
 
+    const newMovie = Movies.filter((movie) => {
+      return movie._id !== id;
+    });
+    setMovies(newMovie);
+  };
 
-    return (
-        <MovieContext.Provider value={{Movies,setMovies,addMovie}}>
-           {props.children} 
-        </MovieContext.Provider>
-    )
-}
+  //Edit Movie
+  const editMovie = async (
+    id,
+    title,
+    description,
+    status,
+    genre,
+    release_date
+  ) => {
+    //API CALL
+    const response = await fetch(`${host}/api/movies/updatemov/${id}`, {
+      method: "PUT",
+      headers: {
+        "content-type": "application/json",
+        "auth-token":
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbiI6eyJpZCI6IjYxNzdlNzE5YjY3NWY3ODFkOWM2Mzc1NCJ9LCJpYXQiOjE2MzUzMzg4OTJ9.uEQqtnUxK4pPVXiXLFWS8KR9Ji62w6xzqKYrtK7Lp_E",
+      },
+      body: JSON.stringify({ title, description, status, genre, release_date }),
+    });
+    const json = await response.json();
 
-export default MovieState
+    let newMovie = JSON.parse(JSON.stringify(Movies));
+
+    setMovies(newMovie);
+  };
+
+  return (
+    <MovieContext.Provider
+      value={{ Movies, setMovies, getMovies, addMovie, deleteMovie, editMovie }}
+    >
+      {props.children}
+    </MovieContext.Provider>
+  );
+};
+
+export default MovieState;

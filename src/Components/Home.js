@@ -1,20 +1,24 @@
-import React,{useContext} from "react";
+import React, { useContext, useEffect } from "react";
 import AddMovie from "./Admin/AddMovie";
 import MovieItem from "./MovieItem";
 import MovieContext from "../State/MovieContext";
 function Home() {
-  const context = useContext(MovieContext)
-  const {Movies,setMovies}=context
-  
+  const context = useContext(MovieContext);
+  const { Movies, setMovies, getMovies } = context;
+
   //Fetch All Moviews
+  useEffect(() => {
+    getMovies();
+  }, []);
+
   return (
     <div className="container-fluid">
-      <AddMovie/>
+      <AddMovie />
       <div className="row mt-2">
         <div className="col-12">
           <h4>Recommanded Movies</h4>
           {Movies.map((movies) => {
-           return <MovieItem key={movies._id} movie={movies} />;
+            return <MovieItem key={movies._id} movie={movies} />;
           })}
         </div>
       </div>
