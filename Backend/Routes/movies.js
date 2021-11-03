@@ -54,7 +54,6 @@ router.post(
       image,
       release_date,
     });
-    movie.save();
     const saveMovie = await movie.save();
     res.send(saveMovie);
   }
