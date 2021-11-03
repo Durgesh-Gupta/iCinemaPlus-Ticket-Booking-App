@@ -54,7 +54,7 @@ const AddMovie = () => {
             type="file"
             className="form-control"
             id="image"
-            name="iamge"
+            name="image"
             // value={image}
             onChange={onChangeFile}
             minLength={5}
@@ -105,7 +105,7 @@ const AddMovie = () => {
           />
         </div>
         <button
-          // disabled={Movie.title.length < 2 || Movie.description.length < 5}
+          // disabled={etitle.length < 2 || edescription.length < 5}
           type="submit"
           className="btn btn-primary"
           onClick={handleClick}

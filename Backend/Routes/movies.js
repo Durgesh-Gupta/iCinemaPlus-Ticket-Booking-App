@@ -13,15 +13,12 @@ const storage = multer.diskStorage({
   },
   //add back the extension
   filename: function (request, file, callback) {
-    callback(null, Date.now() + file.originalname);
+    callback(null, Date.now()+'-' + file.originalname);
   },
 });
 //upload parameter for multer
 const upload = multer({
-  storage: storage,
-  limits: {
-    fieldSize: 1024 * 1024 * 3,
-  },
+  storage: storage
 });
 
 //Router 1: Adding Movies at admin side
@@ -34,10 +31,10 @@ router.post(
     body("description", "Enter valid Desc for Movies!").isLength({ min: 5 }),
   ],
   async (req, res) => {
-    console.log(req.formData);
+    try{
     const { title, description, genre, release_date, status } = req.body;
-    const { image } = req.file.filename;
-    console.log(title);
+    const image = req.file.filename;
+    console.log(req.file);
 
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -54,13 +51,18 @@ router.post(
       description,
       genre,
       status,
-      release_date,
       image,
+      release_date,
     });
     movie.save();
-    // const saveMovie = await movie.save();
-    // res.send(saveMovie);
+    const saveMovie = await movie.save();
+    res.send(saveMovie);
   }
+  catch(error){
+  res.status(200).send("!!! need to fix in Add Movie Route");
+  }
+}
+
 );
 
 //Route 2:Update Movie Details -Admin side

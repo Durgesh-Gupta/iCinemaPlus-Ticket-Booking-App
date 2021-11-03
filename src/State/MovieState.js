@@ -1,4 +1,4 @@
-import react, { useState } from "react";
+import { useState } from "react";
 import MovieContext from "./MovieContext";
 
 const MovieState = (props) => {
@@ -41,11 +41,9 @@ const MovieState = (props) => {
       },
       body:formData,
     });
-    console.log("Movie State---------------")
 
     const movie = await response.json();
     setMovies(Movies.concat(movie));
-    console.log("Movie State---------------end")
 
   };
 
@@ -61,6 +59,7 @@ const MovieState = (props) => {
       },
     });
     const json = await response.json();
+    console.log(json)
 
     const newMovie = Movies.filter((movie) => {
       return movie._id !== id;
@@ -88,6 +87,7 @@ const MovieState = (props) => {
       body: JSON.stringify({ title, description, status, genre, release_date }),
     });
     const json = await response.json();
+    console.log(json)
 
     let newMovie = JSON.parse(JSON.stringify(Movies));
 

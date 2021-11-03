@@ -6,6 +6,8 @@ import NowShowing from "./Components/NowShowing"
 import ComingSoon from "./Components/ComingSoon"
 import Cinemas from "./Components/Cinemas"
 import MovieState from "./State/MovieState";
+import Login from "./Components/Login";
+import SignUp from "./Components/SignUp";
 
 function App() {
   return (
@@ -24,6 +26,12 @@ function App() {
           </Route>
           <Route exact path="/Cinemas">
             <Cinemas />
+          </Route>
+          <Route exact path="/login">
+            <Login/>
+          </Route>
+          <Route exact path="/signup">
+            <SignUp/>
           </Route>
         </Switch>
       </Router>
