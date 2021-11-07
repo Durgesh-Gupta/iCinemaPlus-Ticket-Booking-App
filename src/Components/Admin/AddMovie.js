@@ -23,9 +23,9 @@ const AddMovie = () => {
     formData.append("image", image)
     formData.append("release_date", release_date)
     formData.append("genre", genre)
-    console.log()
     addMovie(formData);
-    // setMovie({title:"",description:"",status:"",release_date:"",genre:""})
+    console.log("Form Submitted")
+
   };
   return (
     <div className="container my-3">

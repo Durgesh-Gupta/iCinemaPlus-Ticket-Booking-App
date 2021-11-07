@@ -8,10 +8,13 @@ import Cinemas from "./Components/Cinemas"
 import MovieState from "./State/MovieState";
 import Login from "./Components/Login";
 import SignUp from "./Components/SignUp";
+import UserState from "./State/UserState";
+import Booking from "./Components/Booking";
 
 function App() {
   return (
     <MovieState>
+    <UserState>
       <Router>
         <NavBar />
         <Switch>
@@ -33,8 +36,12 @@ function App() {
           <Route exact path="/signup">
             <SignUp/>
           </Route>
+          <Route exact path="/booking">
+            <Booking/>
+          </Route>
         </Switch>
       </Router>
+    </UserState>
     </MovieState>
   );
 }

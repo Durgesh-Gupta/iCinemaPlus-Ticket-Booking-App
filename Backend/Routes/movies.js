@@ -31,9 +31,15 @@ router.post(
     body("description", "Enter valid Desc for Movies!").isLength({ min: 5 }),
   ],
   async (req, res) => {
-    try{
+    // try{
     const { title, description, genre, release_date, status } = req.body;
-    const image = req.file.filename;
+    try{
+    var image = req.file.filename;
+    console.log()
+    }
+    catch{
+      image="Empty"
+    }
     console.log(req.file);
 
     const errors = validationResult(req);
@@ -56,10 +62,10 @@ router.post(
     });
     const saveMovie = await movie.save();
     res.send(saveMovie);
-  }
-  catch(error){
-  res.status(200).send("!!! need to fix in Add Movie Route");
-  }
+  // }
+  // catch(error){
+  // res.status(200).send("!!! need to fix in Add Movie Route");
+  // }
 }
 
 );
