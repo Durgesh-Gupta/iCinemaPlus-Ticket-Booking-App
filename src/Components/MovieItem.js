@@ -1,15 +1,14 @@
 import React, { useContext } from "react";
-import { Link } from "react-router-dom";
 import MovieContext from "../State/MovieContext";
 
 const MovieItem = (props) => {
   const context = useContext(MovieContext);
   const { deleteMovie } = context;
   const { movie,updateMovie } = props;
+  console.log(movie)
   return (
     <div className="card" style={{ width: "18rem" }}>
-      console.log(movie)
-      <img src={`/uploads/${movie.image}`} className="card-img-top" alt="Movie" />
+      <img src={`./public/uploads/images/${movie.image}`} className="card-img-top" alt="Movie" />
       <div className="card-body">
         <div className="d-flex align-items-center">
           <h5 className="card-title">{movie.title}</h5>
@@ -19,9 +18,7 @@ const MovieItem = (props) => {
           <i className="bi bi-pencil-square mx-2" onClick={()=>{updateMovie(movie)}}></i>
         </div>
         <p className="card-text">{movie.description}</p>
-        <Link to="#" className="btn btn-primary">
-          Book Show
-        </Link>
+        
       </div>
     </div>
   );

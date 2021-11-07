@@ -1,7 +1,13 @@
-import React from 'react'
+import React,{useEffect,useContext} from 'react'
 import {Link} from "react-router-dom"
-
+import MovieContext from "../State/MovieContext";
 function NavBar() {
+  const context = useContext(MovieContext);
+    const { getMovies } = context;
+   //Fetch All Moviews
+   useEffect(() => {
+    getMovies();
+  }, []);
     return (
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
   <div className="container-fluid">

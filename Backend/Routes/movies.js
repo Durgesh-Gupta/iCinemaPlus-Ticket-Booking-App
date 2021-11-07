@@ -13,7 +13,7 @@ const storage = multer.diskStorage({
   },
   //add back the extension
   filename: function (request, file, callback) {
-    callback(null, Date.now()+'-' + file.originalname);
+    callback(null, Date.now()+ file.originalname);
   },
 });
 //upload parameter for multer

@@ -20,7 +20,7 @@ const MovieState = (props) => {
   //Add Movies
   // const addMovie = async (title,image, description, release_date, genre) => {
   const addMovie = async (formData) => {
-    console.log(formData);
+    console.log("formData",formData);
 
     //Movies Model Status Logic
     // var statusid=""
@@ -43,7 +43,9 @@ const MovieState = (props) => {
     });
 
     const movie = await response.json();
-    setMovies(Movies.concat(movie));
+    console.log(movie,"-----Movie")
+    // setMovies(Movies.concat(movie));
+    
 
   };
 

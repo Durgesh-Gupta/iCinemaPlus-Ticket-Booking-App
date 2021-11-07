@@ -36,3 +36,10 @@
     transform: rotate(360deg);
   }
 }
+/* Seat Booking */
+.seat{
+  height: 2em;
+  width: 2em;
+  background-color: rgb(194, 114, 231);
+  margin: 5px 2px;
+}
