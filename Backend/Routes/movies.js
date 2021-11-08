@@ -140,14 +140,24 @@ router.post("/createthea", adminauth, (req, res) => {
 });
 //Router :Getting Movie Booking Details
 router.post("/bookingDetails",async (req, res) => {
-  const {id} =req.body
+  var {id} =req.body
   const movies = await Movies.findById(id)
   const showtime= await ShowTime.find({movie:id})
   const reserved= await Reservation.find({showtime:showtime._id})
+console.log(showtime)
+  //Refcatoring value
+  //for Movies
+  const movie_id=movies._id
+  const {title,description,genre}=movies
+  // console.log(movie_id,title,description,genre)
+  //for showtime
+  //for reservation
+  const show_time=reserved.showtime
+  const {seat_no}=reserved
+  const newRes= {movie_id,title,description,genre,show_time,seat_no}
 
-
-  console.log(movies,showtime,reserved)
-  res.send(req.body);
+  // console.log(newRes)
+  res.send(newRes);
 });
 
 module.exports = router;
