@@ -3,6 +3,8 @@ const { body, validationResult } = require("express-validator");
 const router = express.Router();
 const Movies = require("../Model/Movies");
 const Theater = require("../Model/Theater");
+const ShowTime = require("../Model/showtime")
+const Reservation=require("../Model/Reservation")
 const adminauth = require("./Middleware/adminauth");
 const multer = require("multer");
 
@@ -134,6 +136,17 @@ router.get("/allmovies", async (req, res) => {
 router.post("/createthea", adminauth, (req, res) => {
   const theater = Theater(req.body);
   theater.save();
+  res.send(req.body);
+});
+//Router :Getting Movie Booking Details
+router.post("/bookingDetails",async (req, res) => {
+  const {id} =req.body
+  const movies = await Movies.findById(id)
+  const showtime= await ShowTime.find({movie:id})
+  const reserved= await Reservation.find({showtime:showtime._id})
+
+
+  console.log(movies,showtime,reserved)
   res.send(req.body);
 });
 

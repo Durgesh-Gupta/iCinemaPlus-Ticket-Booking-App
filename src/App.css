@@ -37,9 +37,29 @@
   }
 }
 /* Seat Booking */
+
+
 .seat{
   height: 2em;
   width: 2em;
   background-color: rgb(194, 114, 231);
   margin: 5px 2px;
 }
+.seat.reserved{
+  background-color: rgb(118, 117, 119);
+
+}
+
+.seat.selected {
+  background-color: #6feaf6;
+}
+
+/* .seat:hover{
+  transform: scale(1.2);
+} */
+.seat:not(.reserved):hover {
+  cursor: pointer;
+  transform: scale(1.2);
+}
+
+

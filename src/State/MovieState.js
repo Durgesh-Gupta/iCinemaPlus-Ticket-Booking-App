@@ -108,9 +108,21 @@ const MovieState = (props) => {
 
   };
 
+
+    // Get Movies Booking Details
+    const fetchBooking = async (id) => {
+      const response = await fetch(`${host}/api/movies/allmovies`, {
+        method: "GET",
+        headers: {
+          "content-type": "application/json",
+        },
+      });
+      const json = await response.json();
+      setMovies(json);
+    };
   return (
     <MovieContext.Provider
-      value={{ Movies, setMovies, getMovies, addMovie, deleteMovie, editMovie}}
+      value={{ Movies, setMovies, getMovies, addMovie, deleteMovie, editMovie,fetchBooking}}
     >
       {props.children}
     </MovieContext.Provider>

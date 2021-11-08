@@ -5,7 +5,7 @@ const MovieItem = (props) => {
   const context = useContext(MovieContext);
   const { deleteMovie } = context;
   const { movie,updateMovie } = props;
-  console.log(movie)
+  // console.log(movie)
   return (
     <div className="card" style={{ width: "18rem" }}>
       <img src={`./public/uploads/images/${movie.image}`} className="card-img-top" alt="Movie" />
