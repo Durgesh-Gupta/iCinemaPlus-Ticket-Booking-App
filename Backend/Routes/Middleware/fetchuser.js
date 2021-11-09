@@ -6,7 +6,7 @@ const fetchuser = (req, res, next) => {
   }
   try {
     const data = JWT.verify(token, "shhhh");
-    console.log(data)
+    // console.log(data)
     req.user = data.user;
     next();
   } catch (error) {
