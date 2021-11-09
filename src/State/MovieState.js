@@ -5,6 +5,7 @@ const MovieState = (props) => {
   const host = "http://localhost:5000";
   const initial = [];
   const [Movies, setMovies] = useState(initial);
+  const [BookingDetails, setBookingDetails] = useState({})
 
   // Get Movies
   const getMovies = async () => {
@@ -111,18 +112,19 @@ const MovieState = (props) => {
 
     // Get Movies Booking Details
     const fetchBooking = async (id) => {
-      const response = await fetch(`${host}/api/movies/allmovies`, {
-        method: "GET",
+      const response = await fetch(`${host}/api/movies/bookingDetails`, {
+        method: "POST",
         headers: {
           "content-type": "application/json",
         },
+        body: JSON.stringify({id}),
       });
       const json = await response.json();
-      setMovies(json);
+      setBookingDetails(json)
     };
   return (
     <MovieContext.Provider
-      value={{ Movies, setMovies, getMovies, addMovie, deleteMovie, editMovie,fetchBooking}}
+      value={{ Movies, setMovies, getMovies, addMovie, deleteMovie, editMovie,fetchBooking,BookingDetails}}
     >
       {props.children}
     </MovieContext.Provider>

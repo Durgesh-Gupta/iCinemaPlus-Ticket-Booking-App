@@ -5,9 +5,9 @@ function NavBar() {
   const context = useContext(MovieContext);
     const { getMovies } = context;
    //Fetch All Moviews
-   useEffect(() => {
-    getMovies();
-  }, []);
+  //  useEffect(() => {
+  //   getMovies();
+  // }, []);
     return (
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
   <div className="container-fluid">

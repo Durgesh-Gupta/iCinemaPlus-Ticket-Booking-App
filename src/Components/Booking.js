@@ -1,37 +1,67 @@
-import React, { useContext,useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router";
 import MovieContext from "../State/MovieContext";
-import "../index.js"
+import "../index.js";
 import $ from "jquery";
 
 const Booking = () => {
   const { id } = useParams(); //Movie id
-  const context = useContext(MovieContext)
-  const {fetchBooking}=context
+  const context = useContext(MovieContext);
+  const { fetchBooking, BookingDetails } = context;
 
   //Fetch Moviews Booking Details
   useEffect(() => {
     fetchBooking(id);
   }, []);
-  const [SeatBooked, setSeatBooked] = useState([])
-  const [Count, setCount] = useState(0)
-  const [Price, setPrice] = useState(0)
-  const ClickSelect=(e)=>{
-    
-    setCount(Count+1)
-    setSeatBooked([...SeatBooked,id])
-    setPrice((Count+1)*100)
+  const [SeatBooked, setSeatBooked] = useState([]);
+  const [Count, setCount] = useState(0);
+  const [Price, setPrice] = useState(0);
+  const ClickSelect = (e) => {
+    setCount(Count + 1);
+    setSeatBooked([...SeatBooked, id]);
+    setPrice((Count + 1) * 100);
 
-    $('.seat').on('click', function(e){
-
-      $(this)
-      .toggleClass('selected')
-  
-  })
+    $(".seat").on("click", function (e) {
+      $(this).toggleClass("selected");
+    });
     // document.getElementsByClassName("seat").classList.toggle("selected")
+  };
+  const [formValue, setformValue] = useState({ theater: "", time: "" });
+  const [formTheater, setformTheater] = useState("");
+  const onChangetheater = (e) => {
+    setformTheater(e.target.value);
+    console.log("formvalue", formTheater);
+  };
+  const [formTime, setformTime] = useState("");
+  const onChangeTime = (e) => {
+    setformTime(e.target.value);
+    console.log("formvalue", formTime);
+  };
+  const onChange = (e) => {
+    setformValue({ ...formValue, [e.target.name]: e.target.value });
+    // console.log("formvalue",formValue)
+  };
+  //ShowTime Details
+  const ShowtimeD = BookingDetails.showtime;
+  // console.log("show d",ShowtimeD)
 
+  if (ShowtimeD) {
+    // console.log("if condition");
+    // console.log(ShowtimeD);
+    var cinema = [...new Set(ShowtimeD.map((item) => item.theater))];
+    // console.log(typeof cinema);
+    // console.log("");
+  } else {
+    cinema = { one: "Wait" };
+    console.log("Not load");
   }
+  // console.log("Booking details",BookingDetails)
+  // console.log(cinema)
+  const seats = Array.from({ length: (35 - 1) / 1 }, (_, i) => i);
 
+  const miniFormHandle = () => {
+    // console.log("form Handler");
+  };
   return (
     <div className="container-fluid">
       <div className="row">
@@ -48,11 +78,19 @@ const Booking = () => {
                   <select
                     className="form-select"
                     aria-label="Default select example"
+                    onChange={onChangetheater}
+                    value={formTheater}
+                    name="theater"
                   >
-                    <option defaultValue>Select Cinema</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
+                    {/* {cinema.map((show)=>{
+
+                    <option value="{show}">{show}</option>
+                  })} */}
+                    <option defaultValue>Select Theater</option>
+
+                    <option value="PVR">PVR</option>
+                    <option value="iMAX">iMAX</option>
+                    <option value="NEW-MAX">NEW-MAX</option>
                   </select>{" "}
                 </div>
                 <div className="col">
@@ -70,11 +108,14 @@ const Booking = () => {
                   <select
                     className="form-select"
                     aria-label="Default select example"
+                    onChange={onChangetheater}
+                    value={formTheater}
+                    name="time"
                   >
                     <option defaultValue>Select Time</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
+                    <option value="9:00AM">9:00AM</option>
+                    <option value="12:00PM">12:00PM</option>
+                    <option value="6:00PM">6:00PM</option>
                   </select>{" "}
                 </div>
               </div>
@@ -85,61 +126,25 @@ const Booking = () => {
               <div className="col-lg-12 text-dark justify-content-center">
                 <div className="container" id="movie-container">
                   <div className="row mt-5">
-                    <div id = "1" onClick={ClickSelect}  className="seat">1</div>
-                    <div id="2" onClick={ClickSelect}  className="seat">2</div>
-                    <div onClick={ClickSelect} className="seat">3</div>
-                    <div onClick={ClickSelect} className="seat">4</div>
-                    <div onClick={ClickSelect} className="seat">5</div>
-                    <div onClick={ClickSelect} className="seat">6</div>
-                    <div onClick={ClickSelect} className="seat">7</div>
-                    <div onClick={ClickSelect} className="seat">8</div>
+                    {seats.map((seat_no) => {
+                      return (
+                        <div
+                          key={seat_no}
+                          id={seat_no + 1}
+                          onClick={ClickSelect}
+                          className="seat"
+                        >
+                          {seat_no + 1}
+                        </div>
+                      );
+                    })}
                   </div>
-                  <div className="row">
-                    <div onClick={ClickSelect} className="seat">1</div>
-                    <div onClick={ClickSelect} className="seat">2</div>
-                    <div onClick={ClickSelect} className="seat">3</div>
-                    <div onClick={ClickSelect} className="seat reserved">4</div>
-                    <div onClick={ClickSelect} className="seat reserved">5</div>
-                    <div onClick={ClickSelect} className="seat">6</div>
-                    <div onClick={ClickSelect} className="seat">7</div>
-                    <div onClick={ClickSelect} className="seat">8</div>
-                  </div>
-                  <div className="row">
-                    <div className="seat">1</div>
-                    <div className="seat">2</div>
-                    <div className="seat">3</div>
-                    <div className="seat">4</div>
-                    <div className="seat">5</div>
-                    <div className="seat">6</div>
-                    <div className="seat">7</div>
-                    <div className="seat">8</div>
-                  </div>
-                  <div className="row">
-                    <div className="seat">1</div>
-                    <div className="seat">2</div>
-                    <div className="seat">3</div>
-                    <div className="seat reserved">4</div>
-                    <div className="seat reserved">5</div>
-                    <div className="seat">6</div>
-                    <div className="seat">7</div>
-                    <div className="seat">8</div>
-                  </div>
-                  <div className="row">
-                    <div className="seat">1</div>
-                    <div className="seat">2</div>
-                    <div className="seat">3</div>
-                    <div className="seat reserved">4</div>
-                    <div className="seat reserved">5</div>
-                    <div className="seat">6</div>
-                    <div className="seat">7</div>
-                    <div className="seat">8</div>
-                  </div>
+                  <p className="text">
+                    You have selected <span id="count">0 - {Count}</span> seats
+                    for a price of $<span id="total">{Price}</span>
+                    {BookingDetails.title}
+                  </p>
                 </div>
-
-                <p className="text">
-                  You have selected <span id="count">0 - {Count}</span> seats for a price
-                  of $<span id="total">{Price}</span>
-                </p>
               </div>
             </div>
           </div>

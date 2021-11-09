@@ -152,9 +152,9 @@ console.log(showtime)
   // console.log(movie_id,title,description,genre)
   //for showtime
   //for reservation
-  const show_time=reserved.showtime
-  const {seat_no}=reserved
-  const newRes= {movie_id,title,description,genre,show_time,seat_no}
+  // const show_time=reserved.showtime
+  // const {seat_no}=reserved
+  const newRes= {movie_id,title,description,genre,showtime,reserved}
 
   // console.log(newRes)
   res.send(newRes);
