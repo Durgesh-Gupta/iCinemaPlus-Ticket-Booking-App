@@ -9,7 +9,10 @@ const fetchuser =require("./Middleware/fetchuser")
 
 //Route 1:Ticket Booking
 router.post("/select",fetchuser,async (req,res)=>{
-    const {seat_no,showtime,user}=req.body
+    const {seat_no,showtime}=req.body
+    const user =req.user.id
+    console.log("USER Detail")
+    // console.log("USER Detail",user.id)
     const SeatNo=await Seats.findOne({seat_no:seat_no,showtime:showtime})
     if(SeatNo){
         res.status(401).json({error:"Seat is Already Booked"})
@@ -22,7 +25,8 @@ router.post("/select",fetchuser,async (req,res)=>{
     // Adding reservation
     const reservation = new Reservation({user,showtime,seat_no:saveSeat._id });
     const saveReservation = await reservation.save();
-    res.send({saveReservation});
+    res.send({saveReservation,saveSeat});
+    // res.send("Done")
 })
 //Route 2:Get User Booking Details
 router.post("/getdetail",fetchuser,async (req,res)=>{

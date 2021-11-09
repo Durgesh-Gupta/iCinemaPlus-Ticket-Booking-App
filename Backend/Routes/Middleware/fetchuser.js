@@ -5,16 +5,11 @@ const fetchuser = (req, res, next) => {
     res.status(401).send({ error: "Please add authentication token" });
   }
   try {
-    const data = JWT.verify(token, "shhhh", function(err, decoded) {
-      if (err) {
-        res.status(401).send({ error: "Token Expire! Please Login Again" });
-
-      }
-    })
+    const data = JWT.verify(token, "shhhh");
+    console.log(data)
     req.user = data.user;
     next();
-  } 
-  catch (error) {
+  } catch (error) {
     res.status(401).send({ error: "Please authenticate using a valid token" });
   }
 };

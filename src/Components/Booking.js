@@ -57,6 +57,7 @@ const Booking = () => {
         {/* Poster after selecting */}
         <div className="col-lg-3">
           <img src="demo.jpg" />
+          <h1>{BookingDetails.title}</h1>
         </div>
         {/* Booking */}
         <div className="col-lg-9">
@@ -131,7 +132,6 @@ const Booking = () => {
                   <p className="text">
                     You have selected <span id="count">0 - {Count}</span> seats
                     for a price of $<span id="total">{Price}</span>
-                    {BookingDetails.title}
                   </p>
                 </div>
               </div>
