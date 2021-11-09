@@ -24,7 +24,6 @@ const Booking = () => {
     $(".seat").on("click", function (e) {
       $(this).toggleClass("selected");
     });
-    // document.getElementsByClassName("seat").classList.toggle("selected")
   };
   const [formValue, setformValue] = useState({ theater: "", time: "" });
   const [formTheater, setformTheater] = useState("");
@@ -39,29 +38,19 @@ const Booking = () => {
   };
   const onChange = (e) => {
     setformValue({ ...formValue, [e.target.name]: e.target.value });
-    // console.log("formvalue",formValue)
   };
   //ShowTime Details
   const ShowtimeD = BookingDetails.showtime;
-  // console.log("show d",ShowtimeD)
 
   if (ShowtimeD) {
-    // console.log("if condition");
-    // console.log(ShowtimeD);
     var cinema = [...new Set(ShowtimeD.map((item) => item.theater))];
-    // console.log(typeof cinema);
-    // console.log("");
   } else {
     cinema = { one: "Wait" };
     console.log("Not load");
   }
-  // console.log("Booking details",BookingDetails)
-  // console.log(cinema)
   const seats = Array.from({ length: (35 - 1) / 1 }, (_, i) => i);
 
-  const miniFormHandle = () => {
-    // console.log("form Handler");
-  };
+  const miniFormHandle = () => {};
   return (
     <div className="container-fluid">
       <div className="row">
