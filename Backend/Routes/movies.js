@@ -174,13 +174,13 @@ const ShowIdTimeTheater=[]
   //Refcatoring value
   //for Movies
   const movie_id=movies._id
-  const {title,description,genre}=movies
+  const {title,image,description,genre}=movies
   // console.log(movie_id,title,description,genre)
   //for showtime
   //for reservation
   // const show_time=reserved.showtime
   // const {seat_no}=reserved
-  const newRes= {movie_id,title,description,genre,showTime_id,seat_Array,ShowIdTimeTheater}
+  const newRes= {movie_id,image,title,description,genre,showTime_id,seat_Array,ShowIdTimeTheater}
 
   // console.log(newRes)
   res.send(newRes);

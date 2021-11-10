@@ -16,46 +16,54 @@ const Booking = () => {
   const [SeatBooked, setSeatBooked] = useState([]);
   const [Count, setCount] = useState(0);
   const [Price, setPrice] = useState(0);
-  const ClickSelect = (e) => {
-    setCount(Count + 1);
-    setSeatBooked([...SeatBooked, id]);
-    setPrice((Count + 1) * 100);
+  const ClickSelect = (seat_no) => {
+    if (seat_no in SeatBooked) {
+      let array = SeatBooked;
+      let newarray = array.filter((element) => element !== seat_no);
+      setSeatBooked(newarray);
+      console.log("present");
+      $(`#${seat_no}`).removeClass("selected");
+    } else {
+      $(`#${seat_no}`).addClass("selected");
 
-    $(".seat").on("click", function (e) {
-      $(this).toggleClass("selected");
-    });
+      setSeatBooked([...SeatBooked, seat_no]);
+    }
+    setPrice((Count + 1) * 100);
+    console.log(SeatBooked);
+    // $(".seat").on("click", function (e) {
+    //   $(this).toggleClass("selected");
+    // });
+    setCount(SeatBooked.length);
   };
   const [formValue, setformValue] = useState({ theater: "", time: "" });
   const [formTheater, setformTheater] = useState("");
   const onChangetheater = (e) => {
     setformTheater(e.target.value);
-    console.log("formvalue", formTheater);
+    // console.log("formvalue", formTheater);
   };
   const [formTime, setformTime] = useState("");
   const onChangeTime = (e) => {
     setformTime(e.target.value);
-    console.log("formvalue", formTime);
+    // console.log("formvalue", formTime);
   };
   const onChange = (e) => {
     setformValue({ ...formValue, [e.target.name]: e.target.value });
   };
   //ShowTime Details
-  console.log(typeof BookingDetails);
-  console.log(
-    Object.keys(BookingDetails).length === 0 &&
-      BookingDetails.constructor === Object
-  );
+
   var Reserved_seat = [80];
 
-  if (!(
-    Object.keys(BookingDetails).length === 0 &&
+  if (
+    !(
+      Object.keys(BookingDetails).length === 0 &&
       BookingDetails.constructor === Object
-  )) {
-    console.log("Inside the temp");
+    )
+  ) {
+    // console.log("Inside the temp");
     // var cinema = [...new Set(ShowtimeD.map((item) => item.theater))];
     var { seat_Array } = BookingDetails;
-    console.log(seat_Array);
-    console.log("BookingDetails", BookingDetails);
+    // console.log(seat_Array);
+    // console.log("BookingDetails", BookingDetails);
     // For Reserved Seats--------------------------
     const ResDetail = BookingDetails.seat_Array;
     // console.log(ResDetail)
@@ -68,18 +76,18 @@ const Booking = () => {
       { ShowTime: "6188b99ff083697c5dae7e1c", seatNo: 8 },
     ];
     // console.log("Seat",typeof result[0].seatNo)
-    
-    console.log(Reserved_seat, typeof Reserved_seat);
+
+    // console.log(Reserved_seat, typeof Reserved_seat);
 
     for (let index = 0; index < result.length; index++) {
       Reserved_seat.push(result[index].seatNo);
     }
-    console.log("Reserved_seat----", Reserved_seat);
+    // console.log("Reserved_seat----", Reserved_seat);
   } else {
     // cinema = { one: "Wait" };
     console.log("Not load");
   }
-  const seats = Array.from({ length: (35 - 1) / 1 }, (_, i) => i);
+  const seats = Array.from({ length: (35 - 1) / 1 }, (_, i) => 1 + i * 1);
 
   // const miniFormHandle = () => {
 
@@ -89,14 +97,16 @@ const Booking = () => {
       <div className="row">
         {/* Poster after selecting */}
         <div className="col-lg-3">
-          <img src="demo.jpg" />
-          <h1>{BookingDetails.title}</h1>
+          <img width="100%"
+            src={`http://localhost:5000/public/uploads/images/${BookingDetails.image}`}
+          />
+          <h4 className="px-5">{BookingDetails.title}</h4>
         </div>
         {/* Booking */}
         <div className="col-lg-9">
           <div className="row">
             <div className="col-lg-12 text-light">
-              <div className="row">
+              <div className="row mt-3">
                 <div className="col">
                   <select
                     className="form-select"
@@ -145,30 +155,47 @@ const Booking = () => {
             </div>
           </div>
           <div className="row">
-            <div className="col-lg-12 text-dark">
-              <div className="col-lg-12 text-dark justify-content-center">
-                <div className="container" id="movie-container">
-                  <div className="row mt-5">
-                    {seats.map((seat_no) => {
-                      console.log(Reserved_seat.includes(seat_no))
-                      return (
-                        <div
-                          key={seat_no}
-                          id={seat_no + 1}
-                          onClick={ClickSelect}
-                          className={`seat ${Reserved_seat.includes(seat_no)?"reserved":""}`}
-                        >
-                          {seat_no + 1}
-                        </div>
-                      );
-                    })}
-                  </div>
-                  <p className="text">
-                    You have selected <span id="count">0 - {Count}</span> seats
-                    for a price of $<span id="total">{Price}</span>
-                  </p>
-                </div>
+            <div className="col-lg-12 text-dark justify-content-center">
+              <div className="row mt-5">
+                {seats.map((seat_no) => {
+                  // console.log(Reserved_seat.includes(seat_no))
+                  return (
+                    <div
+                      key={seat_no}
+                      id={seat_no}
+                      onClick={() => ClickSelect(seat_no)}
+                      className={`seat ${
+                        Reserved_seat.includes(seat_no) ? "reserved" : ""
+                      }`}
+                    >
+                      {seat_no}
+                    </div>
+                  );
+                })}
               </div>
+            </div>
+          </div>
+          <div className={`row mt-4 ${SeatBooked.length == 0 ? "d-none" : ""}`}>
+            <div className="col-8 offset-4">
+              <table class="">
+                <tr>
+                  <th scope="col">NAME</th>
+                  <th scope="col">TICKET</th>
+                  <th scope="col">PRICE</th>
+                </tr>
+
+                <tr>
+                  <td>{}</td>
+                  <td>{Count}</td>
+                  <td>Rs.{Price}</td>
+                </tr>
+              </table>
+            </div>
+
+            <div className="col-4 ">
+              <button type="button" class="btn btn-outline-primary">
+                Checkout
+              </button>
             </div>
           </div>
         </div>

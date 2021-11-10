@@ -122,6 +122,11 @@ const MovieState = (props) => {
       const json = await response.json();
       setBookingDetails(json)
     };
+
+
+
+    //Ticket Booking Request
+    
   return (
     <MovieContext.Provider
       value={{ Movies, setMovies, getMovies, addMovie, deleteMovie, editMovie,fetchBooking,BookingDetails}}
