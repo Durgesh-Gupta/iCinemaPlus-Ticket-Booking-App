@@ -126,10 +126,31 @@ const MovieState = (props) => {
 
 
     //Ticket Booking Request
-    
+    const TicketBooking = async (showtime,seat_arr) => {
+      console.log("seat_arr",seat_arr)
+      console.log("shotime",showtime)
+for(let index=0;index<seat_arr.length;index++){
+      //API CAll
+      const response = await fetch(`${host}/api/booking/select`, {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+          "auth-token":
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjE3YWE3Nzg5MjRjOGViY2Q2N2VhYjQxIn0sImlhdCI6MTYzNjU0NDU5N30.J9zcTMil4Ib85GwAaBwrTrSEGYcL1oosE24yVc04190",
+        },
+        body: JSON.stringify({ showtime,seat_no:seat_arr[index] }),
+      });
+      const json = await response.json();
+      console.log(json)
+      {alert("Ticket Booked!!!")}
+
+      }
+    }
+
+
   return (
     <MovieContext.Provider
-      value={{ Movies, setMovies, getMovies, addMovie, deleteMovie, editMovie,fetchBooking,BookingDetails}}
+      value={{ Movies, setMovies, getMovies, addMovie, deleteMovie, editMovie,fetchBooking,BookingDetails,TicketBooking}}
     >
       {props.children}
     </MovieContext.Provider>

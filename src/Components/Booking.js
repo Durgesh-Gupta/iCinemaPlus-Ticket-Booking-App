@@ -7,15 +7,17 @@ import $ from "jquery";
 const Booking = () => {
   const { id } = useParams(); //Movie id
   const context = useContext(MovieContext);
-  const { fetchBooking, BookingDetails } = context;
+  const { fetchBooking, BookingDetails, TicketBooking } = context;
 
   //Fetch Moviews Booking Details
   useEffect(() => {
     fetchBooking(id);
   }, []);
+
   const [SeatBooked, setSeatBooked] = useState([]);
   const [Count, setCount] = useState(0);
   const [Price, setPrice] = useState(0);
+
   const ClickSelect = (seat_no) => {
     if (seat_no in SeatBooked) {
       let array = SeatBooked;
@@ -28,31 +30,35 @@ const Booking = () => {
 
       setSeatBooked([...SeatBooked, seat_no]);
     }
+    setCount(SeatBooked.length + 1);
     setPrice((Count + 1) * 100);
-    console.log(SeatBooked);
-    // $(".seat").on("click", function (e) {
-    //   $(this).toggleClass("selected");
-    // });
-    setCount(SeatBooked.length);
+    // console.log(SeatBooked);
   };
   const [formValue, setformValue] = useState({ theater: "", time: "" });
   const [formTheater, setformTheater] = useState("");
   const onChangetheater = (e) => {
+    // e.preventDefault()
     setformTheater(e.target.value);
+    // console.log(formTheater);
     // console.log("formvalue", formTheater);
   };
   const [formTime, setformTime] = useState("");
   const onChangeTime = (e) => {
+    // e.preventDefault()
+
     setformTime(e.target.value);
-    // console.log("formvalue", formTime);
+    console.log("formvalue", formTime);
   };
   const onChange = (e) => {
     setformValue({ ...formValue, [e.target.name]: e.target.value });
   };
+  // if
+  console.log(formTheater, formTime);
+
   //ShowTime Details
-
+  //dummy data
   var Reserved_seat = [80];
-
+  var showtime = "6188b99ff083697c5dae7e1c";
   if (
     !(
       Object.keys(BookingDetails).length === 0 &&
@@ -67,14 +73,30 @@ const Booking = () => {
     // For Reserved Seats--------------------------
     const ResDetail = BookingDetails.seat_Array;
     // console.log(ResDetail)
-    const showtime = "6188b99ff083697c5dae7e1c";
+
+    var showidtime = BookingDetails.ShowIdTimeTheater;
+    const showtimePre = showidtime.find((seat) => seat.Time === formTime);
+
+    if (showtimePre) {
+      console.log("showtimePre", showtimePre.id);
+      
+      var showtime = showtimePre.id;
+      console.log("showtime",showtime)
+    }
+    else{
+      alert("Not show available")
+    }
+    //       console.log("BookingDetails.ShowIdTimeTheater",BookingDetails.ShowIdTimeTheater)
+    // console.log("showtime",showtime)
+
+    // showtime = "6188b99ff083697c5dae7e1c";
     // for()
-    // const result = ResDetail.filter((seat) => seat.ShowTime == showtime);
-    const result = [
-      { ShowTime: "6188b99ff083697c5dae7e1c", seatNo: 5 },
-      { ShowTime: "6188b99ff083697c5dae7e1c", seatNo: 7 },
-      { ShowTime: "6188b99ff083697c5dae7e1c", seatNo: 8 },
-    ];
+    const result = ResDetail.filter((seat) => seat.ShowTime == showtime);
+    // const result = [
+    //   { ShowTime: "6188b99ff083697c5dae7e1c", seatNo: 5 },
+    //   { ShowTime: "6188b99ff083697c5dae7e1c", seatNo: 7 },
+    //   { ShowTime: "6188b99ff083697c5dae7e1c", seatNo: 8 },
+    // ];
     // console.log("Seat",typeof result[0].seatNo)
 
     // console.log(Reserved_seat, typeof Reserved_seat);
@@ -87,7 +109,7 @@ const Booking = () => {
     // cinema = { one: "Wait" };
     console.log("Not load");
   }
-  const seats = Array.from({ length: (35 - 1) / 1 }, (_, i) => 1 + i * 1);
+  const seats = Array.from({ length: (15 - 1) / 1 }, (_, i) => 1 + i * 1);
 
   // const miniFormHandle = () => {
 
@@ -97,7 +119,8 @@ const Booking = () => {
       <div className="row">
         {/* Poster after selecting */}
         <div className="col-lg-3">
-          <img width="100%"
+          <img
+            width="100%"
             src={`http://localhost:5000/public/uploads/images/${BookingDetails.image}`}
           />
           <h4 className="px-5">{BookingDetails.title}</h4>
@@ -106,52 +129,50 @@ const Booking = () => {
         <div className="col-lg-9">
           <div className="row">
             <div className="col-lg-12 text-light">
-              <div className="row mt-3">
-                <div className="col">
-                  <select
-                    className="form-select"
-                    aria-label="Default select example"
-                    onChange={onChangetheater}
-                    value={formTheater}
-                    name="theater"
-                  >
-                    {/* {cinema.map((show)=>{
+              <form>
+                <select
+                  className="form-select"
+                  aria-label="Default select example"
+                  onChange={onChangetheater}
+                  value={formTheater}
+                  name="theater"
+                >
+                  {/* {cinema.map((show)=>{
 
                     <option value="{show}">{show}</option>
                   })} */}
-                    <option defaultValue>Select Theater</option>
+                  <option defaultValue>Select Theater</option>
 
-                    <option value="PVR">PVR</option>
-                    <option value="iMAX">iMAX</option>
-                    <option value="NEW-MAX">NEW-MAX</option>
-                  </select>{" "}
-                </div>
-                <div className="col">
-                  <select
-                    className="form-select"
-                    aria-label="Default select example"
-                  >
-                    <option defaultValue>Date</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
-                  </select>{" "}
-                </div>
-                <div className="col">
-                  <select
-                    className="form-select"
-                    aria-label="Default select example"
-                    onChange={onChangetheater}
-                    value={formTheater}
-                    name="time"
-                  >
-                    <option defaultValue>Select Time</option>
-                    <option value="9:00AM">9:00AM</option>
-                    <option value="12:00PM">12:00PM</option>
-                    <option value="6:00PM">6:00PM</option>
-                  </select>{" "}
-                </div>
-              </div>
+                  <option value="PVR">PVR</option>
+                  <option value="iMAX">iMAX</option>
+                  <option value="NEW-MAX">NEW-MAX</option>
+                </select>{" "}
+                <select
+                  className="form-select"
+                  aria-label="Default select example"
+                >
+                  <option defaultValue>Date</option>
+                  <option value="1">One</option>
+                  <option value="2">Two</option>
+                  <option value="3">Three</option>
+                </select>{" "}
+                <select
+                  className="form-select"
+                  aria-label="Default select example"
+                  onChange={onChangeTime}
+                  value={formTime}
+                  name="time"
+                >
+                  <option defaultValue>Select Time</option>
+                  {/* {showidtime.map((e)=>{
+                    <option value={e.id}>{e.Time}</option>
+
+                  })} */}
+                  <option value="9:00 AM">9:00 AM</option>
+                  <option value="12:00 PM">12:00 PM</option>
+                  <option value="6:00 PM">6:00 PM</option>
+                </select>{" "}
+              </form>
             </div>
           </div>
           <div className="row">
@@ -193,7 +214,11 @@ const Booking = () => {
             </div>
 
             <div className="col-4 ">
-              <button type="button" class="btn btn-outline-primary">
+              <button
+                type="button"
+                onClick={() => TicketBooking(showtime, SeatBooked)}
+                class="btn btn-outline-primary"
+              >
                 Checkout
               </button>
             </div>
