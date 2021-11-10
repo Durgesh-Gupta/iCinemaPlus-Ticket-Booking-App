@@ -8,7 +8,7 @@ const MovieItem = (props) => {
   // console.log(movie)
   return (
     <div className="card" style={{ width: "18rem" }}>
-      <img src={`./public/uploads/images/${movie.image}`} className="card-img-top" alt="Movie" />
+      <img src={`http://localhost:5000/public/uploads/images/${movie.image}`} className="card-img-top" alt="Movie" />
       <div className="card-body">
         <div className="d-flex align-items-center">
           <h5 className="card-title">{movie.title}</h5>

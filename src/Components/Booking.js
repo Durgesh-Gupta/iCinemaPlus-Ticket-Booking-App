@@ -40,17 +40,50 @@ const Booking = () => {
     setformValue({ ...formValue, [e.target.name]: e.target.value });
   };
   //ShowTime Details
-  const ShowtimeD = BookingDetails.showtime;
+  console.log(typeof BookingDetails);
+  console.log(
+    Object.keys(BookingDetails).length === 0 &&
+      BookingDetails.constructor === Object
+  );
+  var Reserved_seat = [80];
 
-  if (ShowtimeD) {
-    var cinema = [...new Set(ShowtimeD.map((item) => item.theater))];
+  if (!(
+    Object.keys(BookingDetails).length === 0 &&
+      BookingDetails.constructor === Object
+  )) {
+    console.log("Inside the temp");
+    // var cinema = [...new Set(ShowtimeD.map((item) => item.theater))];
+    var { seat_Array } = BookingDetails;
+    console.log(seat_Array);
+    console.log("BookingDetails", BookingDetails);
+    // For Reserved Seats--------------------------
+    const ResDetail = BookingDetails.seat_Array;
+    // console.log(ResDetail)
+    const showtime = "6188b99ff083697c5dae7e1c";
+    // for()
+    // const result = ResDetail.filter((seat) => seat.ShowTime == showtime);
+    const result = [
+      { ShowTime: "6188b99ff083697c5dae7e1c", seatNo: 5 },
+      { ShowTime: "6188b99ff083697c5dae7e1c", seatNo: 7 },
+      { ShowTime: "6188b99ff083697c5dae7e1c", seatNo: 8 },
+    ];
+    // console.log("Seat",typeof result[0].seatNo)
+    
+    console.log(Reserved_seat, typeof Reserved_seat);
+
+    for (let index = 0; index < result.length; index++) {
+      Reserved_seat.push(result[index].seatNo);
+    }
+    console.log("Reserved_seat----", Reserved_seat);
   } else {
-    cinema = { one: "Wait" };
+    // cinema = { one: "Wait" };
     console.log("Not load");
   }
   const seats = Array.from({ length: (35 - 1) / 1 }, (_, i) => i);
 
-  const miniFormHandle = () => {};
+  // const miniFormHandle = () => {
+
+  // };
   return (
     <div className="container-fluid">
       <div className="row">
@@ -117,12 +150,13 @@ const Booking = () => {
                 <div className="container" id="movie-container">
                   <div className="row mt-5">
                     {seats.map((seat_no) => {
+                      console.log(Reserved_seat.includes(seat_no))
                       return (
                         <div
                           key={seat_no}
                           id={seat_no + 1}
                           onClick={ClickSelect}
-                          className="seat"
+                          className={`seat ${Reserved_seat.includes(seat_no)?"reserved":""}`}
                         >
                           {seat_no + 1}
                         </div>
