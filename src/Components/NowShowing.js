@@ -71,7 +71,6 @@ const NowShowing = () => {
       </div>
       <div className="row">
       <div className="col-12">
-        <h1>Hello</h1>
       <Pagination MovPerPage={MovPerPage} totalMov={Movie.length} paginate={paginate}/>
 
       </div>

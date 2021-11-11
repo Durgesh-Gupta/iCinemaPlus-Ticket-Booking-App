@@ -40,7 +40,7 @@ function App() {
           <Route exact path="/booking/:id">
             <Booking/>
           </Route>
-          <Route exact path="/userDasg">
+          <Route exact path="/userDash">
             <UserDash/>
           </Route>
         </Switch>

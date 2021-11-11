@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import UserContext from "./UserContext";
 import { useHistory } from 'react-router-dom'
 
@@ -6,6 +6,7 @@ import { useHistory } from 'react-router-dom'
 const UserState = (props) => {
     const host="http://localhost:5000"
     let history = useHistory();
+    const [UserDetail, setUserDetail] = useState("")
 
     const createUser =async (User)=>{
         const {name,email,contact,password}=User
@@ -30,9 +31,25 @@ const UserState = (props) => {
         }
         }
 
+        // Login User Details
+        const UserDetails =async ()=>{
+          const response = await fetch(`${host}/api/auth/getuser`, {
+              method: "POST",
+              headers: {
+                "content-type": "application/json",
+                "auth-token":localStorage.getItem("token")
+              }
+              
+            });
+            const json = await response.json();
+// console.log("json",json)
+
+            setUserDetail(json)
+          }
+
   return (
     <UserContext.Provider
-      value={{ createUser }}
+      value={{ createUser,UserDetails ,UserDetail}}
     >
       {props.children}
     </UserContext.Provider>

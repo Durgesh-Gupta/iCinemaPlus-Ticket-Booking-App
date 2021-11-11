@@ -3,10 +3,10 @@ const { body, validationResult } = require("express-validator");
 const router = express.Router();
 const Movies = require("../Model/Movies");
 const Theater = require("../Model/Theater");
-const ShowTime = require("../Model/showtime")
-const Reservation=require("../Model/Reservation")
+const ShowTime = require("../Model/showtime");
+const Reservation = require("../Model/Reservation");
 const adminauth = require("./Middleware/adminauth");
-const Seats=require("../Model/Seats")
+const Seats = require("../Model/Seats");
 const multer = require("multer");
 
 //Storage for images
@@ -16,12 +16,12 @@ const storage = multer.diskStorage({
   },
   //add back the extension
   filename: function (request, file, callback) {
-    callback(null, Date.now()+ file.originalname);
+    callback(null, Date.now() + file.originalname);
   },
 });
 //upload parameter for multer
 const upload = multer({
-  storage: storage
+  storage: storage,
 });
 
 //Router 1: Adding Movies at admin side
@@ -36,12 +36,11 @@ router.post(
   async (req, res) => {
     // try{
     const { title, description, genre, release_date, status } = req.body;
-    try{
-    var image = req.file.filename;
-    console.log()
-    }
-    catch{
-      image="Empty"
+    try {
+      var image = req.file.filename;
+      console.log();
+    } catch {
+      image = "Empty";
     }
     console.log(req.file);
 
@@ -65,12 +64,11 @@ router.post(
     });
     const saveMovie = await movie.save();
     res.send(saveMovie);
-  // }
-  // catch(error){
-  // res.status(200).send("!!! need to fix in Add Movie Route");
-  // }
-}
-
+    // }
+    // catch(error){
+    // res.status(200).send("!!! need to fix in Add Movie Route");
+    // }
+  }
 );
 
 //Route 2:Update Movie Details -Admin side
@@ -140,47 +138,59 @@ router.post("/createthea", adminauth, (req, res) => {
   res.send(req.body);
 });
 
-
-
-
 //Router :Getting Movie Booking Details
-router.post("/bookingDetails",async (req, res) => {
-  var {id} =req.body
-  const movies = await Movies.findById(id)
-  console.log(movies,"______Movie___________")
-  const showtime= await ShowTime.find({movie:id})
+router.post("/bookingDetails", async (req, res) => {
+  var { id } = req.body;
+  const movies = await Movies.findById(id);
+  console.log(movies, "______Movie___________");
+  const showtime = await ShowTime.find({ movie: id });
 
   // const reserved= await Reservation.find({showtime:showtime._id})
-console.log(showtime.length)
-const showTime_id=[]
-const ShowIdTimeTheater=[]
-  for(let index=0;index<showtime.length;index++){
-    showTime_id.push(showtime[index].id)
-    ShowIdTimeTheater.push({"id":showtime[index].id,"Time":showtime[index].time,"theater":showtime[index].theater})
-
+  console.log(showtime.length);
+  const showTime_id = [];
+  const ShowIdTimeTheater = [];
+  for (let index = 0; index < showtime.length; index++) {
+    showTime_id.push(showtime[index].id);
+    ShowIdTimeTheater.push({
+      id: showtime[index].id,
+      Time: showtime[index].time,
+      theater: showtime[index].theater,
+    });
   }
-  console.log(ShowIdTimeTheater)
-  const reserved= await Reservation.find({
-    showtime: { $in:showTime_id}
-  })
-  const seat= await Seats.find({
-    showtime: { $in:showTime_id}
-  })
-  const seat_Array=[]
-  for(let index=0;index<seat.length;index++){
-    seat_Array.push({"ShowTime":seat[index].showtime,"seatNo":seat[index].seat_no})
+  console.log(ShowIdTimeTheater);
+  const reserved = await Reservation.find({
+    showtime: { $in: showTime_id },
+  });
+  const seat = await Seats.find({
+    showtime: { $in: showTime_id },
+  });
+  const seat_Array = [];
+  for (let index = 0; index < seat.length; index++) {
+    seat_Array.push({
+      ShowTime: seat[index].showtime,
+      seatNo: seat[index].seat_no,
+    });
   }
-// console.log(seat_Array)
+  // console.log(seat_Array)
   //Refcatoring value
   //for Movies
-  const movie_id=movies._id
-  const {title,image,description,genre}=movies
+  const movie_id = movies._id;
+  const { title, image, description, genre } = movies;
   // console.log(movie_id,title,description,genre)
   //for showtime
   //for reservation
   // const show_time=reserved.showtime
   // const {seat_no}=reserved
-  const newRes= {movie_id,image,title,description,genre,showTime_id,seat_Array,ShowIdTimeTheater}
+  const newRes = {
+    movie_id,
+    image,
+    title,
+    description,
+    genre,
+    showTime_id,
+    seat_Array,
+    ShowIdTimeTheater,
+  };
 
   // console.log(newRes)
   res.send(newRes);
