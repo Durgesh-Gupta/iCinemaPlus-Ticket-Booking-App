@@ -144,6 +144,7 @@ function Home() {
       <div className="row mt-2">
         <div className="col-12">
           <h4>Recommanded Movies</h4>
+          <div className="row">
           {Movies.map((movies) => {
             return (
               <MovieItem
@@ -153,6 +154,7 @@ function Home() {
               />
             );
           })}
+          </div>
         </div>
       </div>
     </div>

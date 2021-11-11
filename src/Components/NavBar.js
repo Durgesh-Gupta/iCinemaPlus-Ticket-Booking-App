@@ -9,10 +9,10 @@ function NavBar() {
       localStorage.removeItem("token")
       history.push("/login")
     }
-   //Fetch All Moviews
-  //  useEffect(() => {
-  //   getMovies();
-  // }, []);
+  //  Fetch All Moviews
+   useEffect(() => {
+    getMovies();
+  }, []);
     return (
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
   <div className="container-fluid">

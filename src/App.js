@@ -10,6 +10,7 @@ import Login from "./Components/Login";
 import SignUp from "./Components/SignUp";
 import UserState from "./State/UserState";
 import Booking from "./Components/Booking";
+import UserDash from "./Components/UserDash";
 
 function App() {
   return (
@@ -38,6 +39,9 @@ function App() {
           </Route>
           <Route exact path="/booking/:id">
             <Booking/>
+          </Route>
+          <Route exact path="/userDasg">
+            <UserDash/>
           </Route>
         </Switch>
       </Router>

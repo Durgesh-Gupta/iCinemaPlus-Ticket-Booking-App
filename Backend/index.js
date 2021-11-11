@@ -6,7 +6,7 @@ const port = 5000
 const connectToMongo=require('./db')
 connectToMongo()
 //
-app.set('view engine', 'ejs')
+// app.set('view engine', 'ejs')
 
 var cors = require('cors')
 app.use(cors())
