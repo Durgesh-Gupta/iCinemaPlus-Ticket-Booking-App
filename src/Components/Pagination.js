@@ -11,11 +11,11 @@ const Pagination = ({ MovPerPage, totalMov,paginate }) => {
   });
   return (
     <nav aria-label="Page navigation example">
-      <ul class="pagination">
+      <ul className="pagination">
         {pageNumber.map((number) => {
           return (
-            <li key={number} class="page-item">
-              <a class="page-link" onClick={()=>paginate(number)} href="#">
+            <li key={number} className="page-item">
+              <a className="page-link" onClick={()=>paginate(number)} href="#">
                 {number}
               </a>
             </li>

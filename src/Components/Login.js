@@ -19,7 +19,7 @@ const Login = () => {
     });
     const json = await response.json();
     console.log(json);
-    if (json) {
+    if (json.success) {
       // Save the auth token and redirect
       localStorage.setItem("token", json.authtoken);
       history.push("/");
@@ -31,8 +31,10 @@ const Login = () => {
     setCredentials({ ...credentials, [e.target.name]: e.target.value });
   };
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
+      
+    <div className="col-4 offset-4 mt-5 border border-dark p-5">
+        <h2>Welcome To iCinema</h2>
+      <form onSubmit={handleSubmit} className="mt-3">
         <div className="mb-3">
           <label htmlFor="email" className="form-label">
             Email address
