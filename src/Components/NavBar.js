@@ -1,9 +1,14 @@
 import React,{useEffect,useContext} from 'react'
-import {Link} from "react-router-dom"
+import {Link,useHistory} from "react-router-dom"
 import MovieContext from "../State/MovieContext";
 function NavBar() {
+  let history=useHistory()
   const context = useContext(MovieContext);
     const { getMovies } = context;
+    const handleLogout=()=>{
+      localStorage.removeItem("token")
+      history.push("/login")
+    }
    //Fetch All Moviews
   //  useEffect(() => {
   //   getMovies();
@@ -31,11 +36,12 @@ function NavBar() {
           <Link className="nav-link" to="/Cinemas">Cinemas</Link>
         </li>      
       </ul>
-      <form className="d-flex">
+      {!localStorage.getItem('token')?
+      <form form className="d-flex">
         <Link className="btn btn-primary mx-2" to="/login" role="button">Login</Link>
         <Link className="btn btn-primary mx-2" to="/signup" role="button">SignUp</Link>
 
-      </form>
+      </form>:<button onClick={handleLogout} className="btn btn-primary">Logout</button>}
     </div>
   </div>
 </nav>

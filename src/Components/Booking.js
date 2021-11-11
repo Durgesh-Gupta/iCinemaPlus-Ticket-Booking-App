@@ -1,17 +1,23 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useParams } from "react-router";
+import { useHistory, useParams } from "react-router";
 import MovieContext from "../State/MovieContext";
 import "../index.js";
 import $ from "jquery";
+import { localsName } from "ejs";
 
 const Booking = () => {
   const { id } = useParams(); //Movie id
   const context = useContext(MovieContext);
   const { fetchBooking, BookingDetails, TicketBooking } = context;
+  let history = useHistory();
 
   //Fetch Moviews Booking Details
   useEffect(() => {
-    fetchBooking(id);
+    if (localStorage.getItem("token")) {
+      fetchBooking(id);
+    } else {
+      history.push("/login");
+    }
   }, []);
 
   const [SeatBooked, setSeatBooked] = useState([]);
@@ -79,12 +85,11 @@ const Booking = () => {
 
     if (showtimePre) {
       console.log("showtimePre", showtimePre.id);
-      
+
       var showtime = showtimePre.id;
-      console.log("showtime",showtime)
-    }
-    else{
-      alert("Not show available")
+      console.log("showtime", showtime);
+    } else {
+      alert("Not show available");
     }
     //       console.log("BookingDetails.ShowIdTimeTheater",BookingDetails.ShowIdTimeTheater)
     // console.log("showtime",showtime)
