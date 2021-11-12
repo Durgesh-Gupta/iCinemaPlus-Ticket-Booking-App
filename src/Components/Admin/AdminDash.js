@@ -4,6 +4,11 @@ import MovieItem from "../MovieItem";
 import MovieContext from "../../State/MovieContext";
 import { useHistory } from "react-router-dom";
 import Pagination from "../Pagination";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import UserDetails from "./UserDetails";
+import AddShowtime from "./AddShowtime";
+import AdminNavbar from "./AdminNavbar";
+
 
 function AdminDash() {
   const context = useContext(MovieContext);
@@ -149,11 +154,27 @@ function AdminDash() {
             </div>
           </div>
         </div>
+        <div className="container">
+        <Router>
+        <AdminNavbar/>
+        <Switch>
+          <Route exact path="/">
+            <AddMovie />
+          </Route>
+          <Route exact path="/user">
+            <UserDetails/>
+          </Route>
+          <Route exact path="/addshow">
+            <AddShowtime/>
+          </Route>
+          </Switch>
+          </Router>
+        </div>
       </div>
       <button onClick={handleLogout} className="btn btn-primary">
         Logout
       </button>
-      <AddMovie />
+      {/* <AddMovie /> */}
       <button
         type="button"
         ref={ref}
