@@ -39,8 +39,8 @@ function AdminDash() {
       );
       const json = await response.json();
       setAllDetails(json);
-      console.log("AllDetails", AllDetails);
-      console.log("json", json);
+    //   console.log("AllDetails", AllDetails);
+    //   console.log("json", json);
     };
     AdminDetails();
   }, []);
@@ -86,13 +86,13 @@ function AdminDash() {
     if (Search == "") {
       return mov.status === "Current";
     } else if (mov.title.toLowerCase().includes(Search.toLowerCase())) {
-      console.log(mov.title.toLowerCase().includes(Search.toLowerCase()));
+    //   console.log(mov.title.toLowerCase().includes(Search.toLowerCase()));
       return mov.status === "Current";
     }
   });
   const SearchHandle = (e) => {
     setSearch(e.target.value);
-    console.log(Search);
+    // console.log(Search);
   };
 
   //   Pagination
@@ -103,7 +103,7 @@ function AdminDash() {
   const indexOfLast = currentPage * MovPerPage;
   const indexOfFirst = indexOfLast - MovPerPage;
   const currentMovie = MovieMod.slice(indexOfFirst, indexOfLast);
-  console.log("currentMovie", currentMovie);
+//   console.log("currentMovie", currentMovie);
   //Change Page
   const paginate = (pageNo) => {
     setcurrentPage(pageNo);
@@ -162,7 +162,7 @@ function AdminDash() {
             <AddMovie />
           </Route>
           <Route exact path="/user">
-            <UserDetails/>
+            <UserDetails AllDetails={AllDetails}/>
           </Route>
           <Route exact path="/addshow">
             <AddShowtime/>
