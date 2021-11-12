@@ -68,10 +68,27 @@ function AdminDash() {
   const onChange = (e) => {
     setMovie({ ...Movie, [e.target.name]: e.target.value });
   };
+  //LogOut
   const handleLogout = () => {
     localStorage.removeItem("Authtoken");
     history.push("/Admin");
   };
+
+  //SearchBar
+  const [Search, setSearch] = useState("");
+  var MovieMod = Movies.filter((mov) => {
+    if (Search == "") {
+      return mov.status === "Current";
+    } else if (mov.title.toLowerCase().includes(Search.toLowerCase())) {
+      console.log(mov.title.toLowerCase().includes(Search.toLowerCase()));
+      return mov.status === "Current";
+    }
+  });
+  const SearchHandle = (e) => {
+    setSearch(e.target.value);
+    console.log(Search);
+  };
+
   return (
     <div className="container-fluid">
       <div className="contaier">
@@ -79,7 +96,7 @@ function AdminDash() {
           <div className="col">
             <div
               class="card border-dark  mb-3"
-            //   style={{ maxWidth: "10rem" }}
+              //   style={{ maxWidth: "10rem" }}
             >
               <div class="card-header text-center">Total Movies</div>
               <div class="card-body">
@@ -90,26 +107,32 @@ function AdminDash() {
           <div className="col">
             <div
               class="card border-dark  mb-3"
-            //   style={{ maxWidth: "10rem" }}
+              //   style={{ maxWidth: "10rem" }}
             >
               <div class="card-header text-center">Total Users</div>
               <div class="card-body">
-                <h5 class="card-title text-center">{AllDetails.users?AllDetails.users.length:"Loading"}</h5>
+                <h5 class="card-title text-center">
+                  {AllDetails.users ? AllDetails.users.length : "Loading"}
+                </h5>
               </div>
             </div>
           </div>
           <div className="col">
             <div
               class="card border-dark  mb-3"
-            //   style={{ maxWidth: "10rem" }}
+              //   style={{ maxWidth: "10rem" }}
             >
               <div class="card-header text-center">Total Seats Available</div>
               <div class="card-body">
-                <h5 class="card-title text-center">{AllDetails?((AllDetails.showtimes.length)*14-(AllDetails.reservations.length)):"Loading"}</h5>
+                <h5 class="card-title text-center">
+                  {AllDetails
+                    ? AllDetails.showtimes.length * 14 -
+                      AllDetails.reservations.length
+                    : "Loading"}
+                </h5>
               </div>
             </div>
           </div>
-
         </div>
       </div>
       <button onClick={handleLogout} className="btn btn-primary">
@@ -230,9 +253,23 @@ function AdminDash() {
       </div>
       <div className="row mt-2">
         <div className="col-12">
-          <h4>Recommanded Movies</h4>
           <div className="row">
-            {Movies.map((movies) => {
+            <div className="col-4">
+              <h1>All Movies</h1>
+            </div>
+            <div className="col-3 pt-3">
+              <input
+                className="form-control form-control-sm"
+                value={Search}
+                onChange={SearchHandle}
+                type="text"
+                placeholder="Search Movie..."
+              />
+            </div>
+          </div>
+
+          <div className="row">
+            {MovieMod.map((movies) => {
               return (
                 <MovieItem
                   key={movies._id}
