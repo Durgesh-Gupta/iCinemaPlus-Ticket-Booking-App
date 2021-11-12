@@ -47,9 +47,28 @@ const UserState = (props) => {
             setUserDetail(json)
           }
 
+           //Ticket Cancel
+  const TicketCancel = async (id) => {
+    console.log("stete", id);
+    
+      //API CAll
+      const response = await fetch(`${host}/api/booking/cancel/${id}`, {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+          "auth-token":
+            localStorage.getItem("token"),
+        },
+      });
+      const json = await response.json();
+      console.log(json);
+    
+    // }
+  };
+
   return (
     <UserContext.Provider
-      value={{ createUser,UserDetails ,UserDetail}}
+      value={{ createUser,UserDetails ,UserDetail,TicketCancel}}
     >
       {props.children}
     </UserContext.Provider>

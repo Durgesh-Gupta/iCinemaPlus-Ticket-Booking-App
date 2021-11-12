@@ -64,9 +64,15 @@ function NavBar() {
               </Link>
             </form>
           ) : (
-            <button onClick={handleLogout} className="btn btn-primary">
-              Logout
-            </button>
+            <div>
+              <Link className="btn mx-2" to="/userDash" role="button">
+                <i className="bi bi-person-circle text-light"></i>{" "}
+              </Link>
+
+              <button onClick={handleLogout} className="btn btn-primary">
+                Logout
+              </button>
+            </div>
           )}
         </div>
       </div>

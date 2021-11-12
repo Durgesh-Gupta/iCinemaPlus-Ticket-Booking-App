@@ -4,45 +4,55 @@ import NowShowing from "./NowShowing";
 
 const UserDash = () => {
   const context = useContext(UserContext);
-  const { UserDetails, UserDetail } = context;
+  const { UserDetails, UserDetail,TicketCancel } = context;
 
   useEffect(() => {
     UserDetails();
   }, []);
   if (UserDetail) {
     var seat_arr = UserDetail.seat;
-
-    console.log("seat_arr", seat_arr);
+    if(typeof seat_arr =="undefined" ){
+      seat_arr=[
+        {
+          "_id": "...",
+          "showtime": "No Booking",
+          "seat_no": "",
+          "status": false,
+          "__v": 0
+        }
+      ]
+    }
+console.log(UserDetail)
+    console.log("seat_arr inside if", seat_arr);
   }
   else{
     var seat_arr= [
         {
-          "_id": "618d235565dca9ff7ed60eb6",
-          "showtime": "Not Loaded",
-          "seat_no": 1,
-          "status": false,
-          "__v": 0
-        },
-        {
-          "_id": "618d236565dca9ff7ed60ec0",
-          "showtime": "6188b9bdf083697c5dae7e20",
-          "seat_no": 3,
-          "status": false,
-          "__v": 0
-        },
-        {
-          "_id": "618d236865dca9ff7ed60ec5",
-          "showtime": "6188b9bdf083697c5dae7e20",
-          "seat_no": 4,
+          "_id": true,
+          "showtime": "Loading...",
+          "seat_no": "Loading..",
           "status": false,
           "__v": 0
         }
       ]
   }
+
+  //Ticket Cancelation
+  const hancleCancel=(seat)=>{
+    console.log(seat)
+    var rev = UserDetail.reservation;
+    const revId = rev.find((revd) => revd.seat_no === seat);
+    console.log(revId._id)
+    // TicketCancel
+    
+  }
+
+
   return (
     <div className="Container">
       <div className="row">
         <div className="col-8 offset-2">
+          <h4>Booking</h4>
           <table class="table">
             <thead>
               <tr>
@@ -59,8 +69,8 @@ const UserDash = () => {
                   <tr>
                     <th scope="row">1</th>
                     <td>{seats.showtime}</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
+                    <td>{seats.seat_no}</td>
+                    <td ><span className={`CancleBtn ${seats._id?"d-none":""}`} onClick={()=>hancleCancel(seats._id)}> Cancel Booking</span></td>
                   </tr>
                 );
               })}

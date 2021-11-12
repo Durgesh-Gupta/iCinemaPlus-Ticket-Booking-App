@@ -5,7 +5,7 @@ const MovieState = (props) => {
   const host = "http://localhost:5000";
   const initial = [];
   const [Movies, setMovies] = useState(initial);
-  const [BookingDetails, setBookingDetails] = useState({})
+  const [BookingDetails, setBookingDetails] = useState({});
 
   // Get Movies
   const getMovies = async () => {
@@ -21,7 +21,7 @@ const MovieState = (props) => {
   //Add Movies
   // const addMovie = async (title,image, description, release_date, genre) => {
   const addMovie = async (formData) => {
-    console.log("formData",formData);
+    console.log("formData", formData);
 
     //Movies Model Status Logic
     // var statusid=""
@@ -37,17 +37,15 @@ const MovieState = (props) => {
       method: "POST",
       headers: {
         "content-type": "application/json",
-        "auth-token": localStorage.getItem('token')
-          // "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbiI6eyJpZCI6IjYxNzdlNzE5YjY3NWY3ODFkOWM2Mzc1NCJ9LCJpYXQiOjE2MzU3NzIyOTN9.JTb-sINP8sXKpJ7Bc2rCLVVDejeUla3gGFOH9yS6vAM",
+        "auth-token": localStorage.getItem("token"),
+        // "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbiI6eyJpZCI6IjYxNzdlNzE5YjY3NWY3ODFkOWM2Mzc1NCJ9LCJpYXQiOjE2MzU3NzIyOTN9.JTb-sINP8sXKpJ7Bc2rCLVVDejeUla3gGFOH9yS6vAM",
       },
-      body:formData,
+      body: formData,
     });
 
     const movie = await response.json();
-    console.log(movie,"-----Movie")
+    console.log(movie, "-----Movie");
     // setMovies(Movies.concat(movie));
-    
-
   };
 
   //Delete Movies
@@ -62,7 +60,7 @@ const MovieState = (props) => {
       },
     });
     const json = await response.json();
-    console.log(json)
+    console.log(json);
 
     const newMovie = Movies.filter((movie) => {
       return movie._id !== id;
@@ -90,67 +88,75 @@ const MovieState = (props) => {
       body: JSON.stringify({ title, description, status, genre, release_date }),
     });
     const json = await response.json();
-    console.log(json)
+    console.log(json);
 
     let newMovie = JSON.parse(JSON.stringify(Movies));
 
     for (let index = 0; index < newMovie.length; index++) {
       const element = newMovie[index];
       if (element._id === id) {
-      newMovie[index].title = title;
-      newMovie[index].description = description;
-      newMovie[index].release_date = release_date; 
-      newMovie[index].genre = genre; 
-        break; 
+        newMovie[index].title = title;
+        newMovie[index].description = description;
+        newMovie[index].release_date = release_date;
+        newMovie[index].genre = genre;
+        break;
       }
-    }  
+    }
     setMovies(newMovie);
-
-
   };
 
+  // Get Movies Booking Details
+  const fetchBooking = async (id) => {
+    const response = await fetch(`${host}/api/movies/bookingDetails`, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({ id }),
+    });
+    const json = await response.json();
+    setBookingDetails(json);
+  };
 
-    // Get Movies Booking Details
-    const fetchBooking = async (id) => {
-      const response = await fetch(`${host}/api/movies/bookingDetails`, {
-        method: "POST",
-        headers: {
-          "content-type": "application/json",
-        },
-        body: JSON.stringify({id}),
-      });
-      const json = await response.json();
-      setBookingDetails(json)
-    };
-
-
-
-    //Ticket Booking Request
-    const TicketBooking = async (showtime,seat_arr) => {
-      console.log("seat_arr",seat_arr)
-      console.log("shotime",showtime)
-for(let index=0;index<seat_arr.length;index++){
+  //Ticket Booking Request
+  const TicketBooking = async (showtime, seat_arr) => {
+    console.log("seat_arr", seat_arr);
+    console.log("shotime", showtime);
+    for (let index = 0; index < seat_arr.length; index++) {
       //API CAll
       const response = await fetch(`${host}/api/booking/select`, {
         method: "POST",
         headers: {
           "content-type": "application/json",
           "auth-token":
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjE3YWE3Nzg5MjRjOGViY2Q2N2VhYjQxIn0sImlhdCI6MTYzNjU0NDU5N30.J9zcTMil4Ib85GwAaBwrTrSEGYcL1oosE24yVc04190",
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjE3YWE3Nzg5MjRjOGViY2Q2N2VhYjQxIn0sImlhdCI6MTYzNjU0NDU5N30.J9zcTMil4Ib85GwAaBwrTrSEGYcL1oosE24yVc04190",
         },
-        body: JSON.stringify({ showtime,seat_no:seat_arr[index] }),
+        body: JSON.stringify({ showtime, seat_no: seat_arr[index] }),
       });
       const json = await response.json();
-      console.log(json)
-      {alert("Ticket Booked!!!")}
-
+      console.log(json);
+      {
+        alert("Ticket Booked!!!");
       }
     }
+  };
+
+ 
 
 
   return (
     <MovieContext.Provider
-      value={{ Movies, setMovies, getMovies, addMovie, deleteMovie, editMovie,fetchBooking,BookingDetails,TicketBooking}}
+      value={{
+        Movies,
+        setMovies,
+        getMovies,
+        addMovie,
+        deleteMovie,
+        editMovie,
+        fetchBooking,
+        BookingDetails,
+        TicketBooking,
+      }}
     >
       {props.children}
     </MovieContext.Provider>
