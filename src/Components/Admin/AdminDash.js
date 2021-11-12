@@ -3,6 +3,7 @@ import AddMovie from "./AddMovie";
 import MovieItem from "../MovieItem";
 import MovieContext from "../../State/MovieContext";
 import { useHistory } from "react-router-dom";
+import Pagination from "../Pagination";
 
 function AdminDash() {
   const context = useContext(MovieContext);
@@ -87,6 +88,20 @@ function AdminDash() {
   const SearchHandle = (e) => {
     setSearch(e.target.value);
     console.log(Search);
+  };
+
+  //   Pagination
+  //Paginamtion
+  const [currentPage, setcurrentPage] = useState(1);
+  const [MovPerPage, setMovPerPage] = useState(1);
+
+  const indexOfLast = currentPage * MovPerPage;
+  const indexOfFirst = indexOfLast - MovPerPage;
+  const currentMovie = MovieMod.slice(indexOfFirst, indexOfLast);
+  console.log("currentMovie", currentMovie);
+  //Change Page
+  const paginate = (pageNo) => {
+    setcurrentPage(pageNo);
   };
 
   return (
@@ -269,7 +284,7 @@ function AdminDash() {
           </div>
 
           <div className="row">
-            {MovieMod.map((movies) => {
+            {currentMovie.map((movies) => {
               return (
                 <MovieItem
                   key={movies._id}
@@ -278,6 +293,15 @@ function AdminDash() {
                 />
               );
             })}
+          </div>
+          <div className="row">
+            <div className="col-12">
+              <Pagination
+                MovPerPage={MovPerPage}
+                totalMov={MovieMod.length}
+                paginate={paginate}
+              />
+            </div>
           </div>
         </div>
       </div>
