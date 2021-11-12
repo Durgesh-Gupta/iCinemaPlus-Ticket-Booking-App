@@ -28,7 +28,7 @@ console.log(UserDetail)
   else{
     var seat_arr= [
         {
-          "_id": true,
+          "_id": false,
           "showtime": "Loading...",
           "seat_no": "Loading..",
           "status": false,
@@ -70,7 +70,7 @@ console.log(UserDetail)
                     <th scope="row">1</th>
                     <td>{seats.showtime}</td>
                     <td>{seats.seat_no}</td>
-                    <td ><span className={`CancleBtn ${seats._id?"d-none":""}`} onClick={()=>hancleCancel(seats._id)}> Cancel Booking</span></td>
+                    <td ><span className={`CancleBtn ${seats._id?"":"d-none"}`} onClick={()=>hancleCancel(seats._id)}> Cancel Booking</span></td>
                   </tr>
                 );
               })}

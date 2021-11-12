@@ -6,6 +6,14 @@ const Admin = require("../Model/Admin");
 var JWT = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 
+const User = require("../Model/User");
+const Movies = require("../Model/Movies");
+const Theater = require("../Model/Theater");
+const ShowTime = require("../Model/showtime");
+const Reservation = require("../Model/Reservation");
+const adminauth = require("./Middleware/adminauth");
+const Seats = require("../Model/Seats");
+
 
 router.post(
   "/Admincreate",
@@ -44,9 +52,10 @@ router.post(
     "/login",
     [body("username").isLength({min:3}), body("password").exists()],
     async (req, res) => {
+      var success=false
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
+        return res.status(400).json({ success,errors: errors.array() });
       }
   
       const { username, password } = req.body;
@@ -55,13 +64,13 @@ router.post(
         if (!admin) {
           return res
             .status(400)
-            .json({ error: "Please try to login using correct Credentials" });
+            .json({success, error: "Please try to login using correct Credentials" });
         }
         const passwordCompare = await bcrypt.compare(password, admin.password);
         if (!passwordCompare) {
           return res
             .status(400)
-            .json({ error: "Please try to login using correct Credentials" });
+            .json({ success,error: "Please try to login using correct Credentials" });
         }
         const data = {
           admin: {
@@ -70,12 +79,27 @@ router.post(
         };
         // console.log(data)
         const authtoken = JWT.sign(data, "shhhh");
-        res.json(authtoken);
+        success=true
+        res.json({success,authtoken});
       } catch (error) {
         console.error(error.message);
-        res.status(500).send("Internal Server Error");
+        res.status(500).send(" HEre Internal Server Error");
       }
     }
   );
+
+  // Route for All Details Admin Dashboard
+  router.post("/adminDetails", adminauth,async (req, res) => {
+    // All Details
+    const mov=await Movies.find()
+    console.log(mov.length)
+    const user = await User.find().select("-password");
+    console.log(user)
+    const reser=await Reservation.find()
+    const showtime=await ShowTime.find()
+
+
+    res.json({movies:mov,users:user,reservations:reser,showtimes:showtime});
+  });
 
 module.exports = router;
