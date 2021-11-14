@@ -34,6 +34,7 @@ router.post("/createShow", async (req, res) => {
 //Update Show Time
 router.put("/updateShow/:id", async (req, res) => {
   const { movie, theater, time } = req.body;
+  console.log(" movie, theater, time ", movie, theater, time )
   const newShow = {};
   if (movie) {
     newShow.movie = movie;

@@ -19,13 +19,13 @@ const MovieState = (props) => {
     });
     const json = await response.json();
     setMovies(json);
-    console.log("json", json);
+    // console.log("json", json);
   };
   //Add Movies
   // const addMovie = async (title,image, description, release_date, genre) => {
   const addMovie = async (formData) => {
-    console.log("formData", formData);
-    console.log(formData.has("imagoe"));
+    // console.log("formData", formData);
+    // console.log(formData.has("imagoe"));
 
     //Api Request
     const response = await fetch(`${host}/api/movies/addmov`, {
@@ -38,7 +38,7 @@ const MovieState = (props) => {
     });
 
     const movie = await response.json();
-    console.log(movie, "-----Movie");
+    // console.log(movie, "-----Movie");
     setMovies(Movies.concat(movie));
   };
 
@@ -54,7 +54,7 @@ const MovieState = (props) => {
       },
     });
     const json = await response.json();
-    console.log(json);
+    // console.log(json);
 
     const newMovie = Movies.filter((movie) => {
       return movie._id !== id;
@@ -64,14 +64,14 @@ const MovieState = (props) => {
 
   //Edit Movie
   const editMovie = async (id, title, description, genre, release_date) => {
-    console.log(
-      "id,title,description,status,genre,release_date",
-      id,
-      title,
-      description,
-      genre,
-      release_date
-    );
+    // console.log(
+    //   "id,title,description,status,genre,release_date",
+    //   id,
+    //   title,
+    //   description,
+    //   genre,
+    //   release_date
+    // );
     //API CALL
     const response = await fetch(`${host}/api/movies/updatemov/${id}`, {
       method: "PUT",
@@ -113,8 +113,8 @@ const MovieState = (props) => {
 
   //Ticket Booking Request
   const TicketBooking = async (showtime, seat_arr) => {
-    console.log("seat_arr", seat_arr);
-    console.log("shotime", showtime);
+    // console.log("seat_arr", seat_arr);
+    // console.log("shotime", showtime);
     for (let index = 0; index < seat_arr.length; index++) {
       //API CAll
       const response = await fetch(`${host}/api/booking/select`, {
@@ -127,7 +127,7 @@ const MovieState = (props) => {
         body: JSON.stringify({ showtime, seat_no: seat_arr[index] }),
       });
       const json = await response.json();
-      console.log(json);
+      // console.log(json);
       {
         alert("Ticket Booked!!!");
       }
@@ -148,7 +148,7 @@ const MovieState = (props) => {
     });
 
     const user = await response.json();
-    console.log(user);
+    // console.log(user);
     if (user) {
       // Save the auth token and redirect
       localStorage.setItem("token", user.authtoken);
@@ -175,7 +175,7 @@ const MovieState = (props) => {
 
   //Ticket Cancel
   const TicketCancel = async (id) => {
-    console.log("stete", id);
+    // console.log("stete", id);
 
     //API CAll
     const response = await fetch(`${host}/api/booking/cancel/${id}`, {
@@ -186,7 +186,7 @@ const MovieState = (props) => {
       },
     });
     const json = await response.json();
-    console.log(json);
+    // console.log(json);
 
     // }
   };
@@ -217,7 +217,7 @@ const MovieState = (props) => {
     //     setMovIdName(...MovIdName, { id: mov._id, title: mov.title });
     //   });
     // }
-    console.log("movidname", MovIdName);
+    // console.log("movidname", MovIdName);
   };
 
   // Deleting ShowTime
@@ -232,7 +232,7 @@ const MovieState = (props) => {
       },
     });
     const json = await response.json();
-    console.log(json);
+    // console.log(json);
 
     // const newMovie = Movies.filter((movie) => {
     //   return movie._id !== id;
@@ -251,13 +251,75 @@ const MovieState = (props) => {
       },
     });
     const json = await response.json();
-    console.log(json);
+    // console.log(json);
 
     // const newMovie = Movies.filter((movie) => {
     //   return movie._id !== id;
     // });
     // setMovies(newMovie);
   };
+
+  // Update ShowTime
+    const updateShowTime = async ({id,time}) => {
+      console.log("id time",id,time)
+     
+      //API CALL
+      const response = await fetch(`${host}/api/show/updateShow/${id}`, {
+        method: "PUT",
+        headers: {
+          "content-type": "application/json",
+          "auth-token": localStorage.getItem("Authtoken"),
+        },
+        body: JSON.stringify({time}),
+      });
+      const json = await response.json();
+      console.log(json);
+  
+      // let newMovie = JSON.parse(JSON.stringify(Movies));
+  
+      // for (let index = 0; index < newMovie.length; index++) {
+      //   const element = newMovie[index];
+      //   if (element._id === id) {
+      //     newMovie[index].title = title;
+      //     newMovie[index].description = description;
+      //     newMovie[index].release_date = release_date;
+      //     newMovie[index].genre = genre;
+      //     break;
+      //   }
+      // }
+      // setMovies(newMovie);
+    };
+  
+  // Update User
+    const updateUserd = async ({id,name,contact,email}) => {
+     
+      //API CALL
+      const response = await fetch(`${host}/api/auth/updateuser/${id}`, {
+        method: "PUT",
+        headers: {
+          "content-type": "application/json",
+          "auth-token": localStorage.getItem("Authtoken"),
+        },
+        body: JSON.stringify({name,contact,email}),
+      });
+      const json = await response.json();
+      console.log(json);
+  
+      // let newMovie = JSON.parse(JSON.stringify(Movies));
+  
+      // for (let index = 0; index < newMovie.length; index++) {
+      //   const element = newMovie[index];
+      //   if (element._id === id) {
+      //     newMovie[index].title = title;
+      //     newMovie[index].description = description;
+      //     newMovie[index].release_date = release_date;
+      //     newMovie[index].genre = genre;
+      //     break;
+      //   }
+      // }
+      // setMovies(newMovie);
+    };
+  
 
 
 
@@ -282,6 +344,8 @@ const MovieState = (props) => {
         MovIdName,
         deleteShow,
         deleteUser,
+        updateShowTime,
+        updateUserd,
       }}
     >
       {props.children}

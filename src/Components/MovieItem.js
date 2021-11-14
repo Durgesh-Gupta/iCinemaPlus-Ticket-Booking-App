@@ -8,13 +8,13 @@ const MovieItem = (props) => {
 
 
 
-  // console.log("Inside Eacg",movie)
+  // console.log("Inside Eacg",movie.status)
   return (
-    <div className="col-3">
+    <div className="col-4">
       <div className="card" style={{ width: "18rem" }}>
         <img
           src={`http://localhost:5000/public/uploads/images/${movie.image}`}
-          className="card-img-top"
+          className="card-img-top img-fluid poster"
           alt="Movie"
         />
         <div className="card-body">
@@ -33,7 +33,10 @@ const MovieItem = (props) => {
               }}
             ></i>
           </div>
-          <p className="card-text">{movie.description}</p>
+          <p className="card-text"><span className="badge bg-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Movie status ">{movie.status}</span>
+          <span className={`badge bg-${movie.IS_DELETE?"danger":"success"}`} data-bs-toggle="tooltip" data-bs-placement="top" title="Movie Deleted or Not">{movie.IS_DELETE?"Disabled":"Active"}</span>
+
+</p>
         </div>
       </div>
     </div>

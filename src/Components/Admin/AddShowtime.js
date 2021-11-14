@@ -1,17 +1,41 @@
-import React, { useContext } from "react";
+import React, { useContext, useRef, useState } from "react";
 import MovieContext from "../../State/MovieContext";
 
 const AddShowtime = () => {
   const context = useContext(MovieContext);
-  const { AllDetails,deleteShow } = context;
-  const tempmov={}
+  const { AllDetails, deleteShow,updateShowTime } = context;
+  const tempmov = {};
   if (AllDetails) {
     AllDetails.movies.map((mov) => {
-      tempmov[mov._id]=mov.title;
+      tempmov[mov._id] = mov.title;
     });
-    console.log(tempmov)
+    // console.log(tempmov);
   }
   const showtime = AllDetails.showtimes;
+
+  // Update Modal
+  const ref = useRef(null)
+    const refClose = useRef(null)
+    const [eshowtime, seteshowtime] = useState({id: "",emovie:"",etheater:"", etime: ""})
+
+    const updateShow = (show) => {
+        ref.current.click();
+        console.log("show",show)
+        console.log("movie",show.movie)
+        seteshowtime({id: show._id, emovie: show.movie, etheater: show.theater, etime:show.time})
+    }
+
+    const handleClick = (e)=>{ 
+      // console.log(e)
+      updateShowTime({id:eshowtime.id,time:eshowtime.etime})
+        refClose.current.click();
+    }
+
+    const onChange = (e)=>{
+        seteshowtime({...eshowtime, [e.target.name]: e.target.value})
+    }
+
+    
   return (
     <div>
       <h1>Showtime</h1>
@@ -33,23 +57,126 @@ const AddShowtime = () => {
                 <td>{tempmov[st.movie]}</td>
                 <td>{st.theater}</td>
                 <td>{st.time}</td>
-                <td><i
-              className="bi bi-trash mx-2"
-              onClick={() => {
-                deleteShow(st._id);
-              }}
-            ></i>
-            <i
-              className="bi bi-pencil-square mx-2"
-              // onClick={() => {
-              //   updateMovie(movie);
-              // }}
-            ></i></td>
+                <td>
+                  <i
+                    className="bi bi-trash mx-2"
+                    onClick={() => {
+                      deleteShow(st._id);
+                    }}
+                  ></i>
+                  <i
+                    className="bi bi-pencil-square mx-2"
+                    onClick={() => {
+                      updateShow(st);
+                    }}
+                  ></i>
+                </td>
               </tr>
             );
           })}
         </tbody>
       </table>
+      // Update Modal
+      <button
+        ref={ref}
+        type="button"
+        className="btn btn-primary d-none"
+        data-bs-toggle="modal"
+        data-bs-target="#exampleModal"
+      >
+        Launch demo modal
+      </button>
+      <div
+        className="modal fade"
+        id="exampleModal"
+        tabIndex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title" id="exampleModalLabel">
+                Edit Show
+              </h5>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div className="modal-body">
+              <form className="my-3">
+                <div className="mb-3">
+                  <label htmlFor="title" className="form-label">
+                    Movie
+                  </label>
+                  <input disabled
+                    type="text"
+                    className="form-control"
+                    id="emovie"
+                    name="emovie"
+                    value={eshowtime.emovie}
+                    aria-describedby="emailHelp"
+                    onChange={onChange}
+                    minLength={5}
+                    required
+                  />
+                </div>
+                <div className="mb-3">
+                  <label htmlFor="description" className="form-label">
+                    Theater
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="etheater"
+                    name="etheater"
+                    value={eshowtime.etheater}
+                    onChange={onChange}
+                    minLength={5}
+                    required
+                  />
+                </div>
+                <div className="mb-3">
+                  <label htmlFor="tag" className="form-label">
+                    Time
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="etime"
+                    name="etime"
+                    value={eshowtime.etime}
+                    onChange={onChange}
+                  />
+                </div>
+              </form>
+            </div>
+            <div className="modal-footer">
+              <button
+                ref={refClose}
+                type="button"
+                className="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Close
+              </button>
+              <button
+                // disabled={
+                //   showtime.emovie.length < 5 || showtime.etheater.length < 5
+                // }
+                onClick={handleClick}
+                type="button"
+                className="btn btn-primary"
+              >
+                Update Note
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
