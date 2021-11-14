@@ -86,6 +86,7 @@ router.post(
 //Route 2:Update Movie Details -Admin side
 router.put("/updatemov/:id", adminauth, async (req, res) => {
   const { title, description, genre, status, release_date } = req.body;
+  console.log("Insiede Update",title, description, genre, status, release_date)
   const newMovie = {};
   if (title) {
     newMovie.title = title;
@@ -115,10 +116,11 @@ router.put("/updatemov/:id", adminauth, async (req, res) => {
     {
       $set: newMovie,
     },
-    { new: true }
+    // { new: true }
   );
 
-  res.json({ movie });
+  // res.json({ movie });
+  res.send("Done2")
 });
 //Route 3:Delete Movie  -Admin side
 
@@ -139,7 +141,8 @@ router.put("/deletemov/:id", adminauth, async (req, res) => {
 
 //Route 4: Get All Movies
 router.get("/allmovies", async (req, res) => {
-  const movies = await Movies.find({ IS_DELETE: false }).exec();
+  const movies = await Movies.find();
+  // const movies = await Movies.find({ IS_DELETE: false });
   res.json(movies);
 });
 

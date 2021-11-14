@@ -12,7 +12,6 @@ const MovieSchema = new Schema({
     },
     genre:{
         type:String,
-        required:true
     },
     status:{
         type:String,

@@ -19,15 +19,14 @@ const MovieState = (props) => {
     });
     const json = await response.json();
     setMovies(json);
+    console.log("json", json);
   };
   //Add Movies
   // const addMovie = async (title,image, description, release_date, genre) => {
-  const addMovie = async formData => {
+  const addMovie = async (formData) => {
     console.log("formData", formData);
-    console.log(formData.has("imagoe"))
+    console.log(formData.has("imagoe"));
 
-
-    
     //Api Request
     const response = await fetch(`${host}/api/movies/addmov`, {
       method: "POST",
@@ -64,26 +63,25 @@ const MovieState = (props) => {
   };
 
   //Edit Movie
-  const editMovie = async (
-    id,
-    title,
-    description,
-    status,
-    genre,
-    release_date
-  ) => {
+  const editMovie = async (id, title, description, genre, release_date) => {
+    console.log(
+      "id,title,description,status,genre,release_date",
+      id,
+      title,
+      description,
+      genre,
+      release_date
+    );
     //API CALL
     const response = await fetch(`${host}/api/movies/updatemov/${id}`, {
       method: "PUT",
       headers: {
-        "content-type": "application/json",
-        "auth-token":
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbiI6eyJpZCI6IjYxNzdlNzE5YjY3NWY3ODFkOWM2Mzc1NCJ9LCJpYXQiOjE2MzUzMzg4OTJ9.uEQqtnUxK4pPVXiXLFWS8KR9Ji62w6xzqKYrtK7Lp_E",
+        "auth-token": localStorage.getItem("Authtoken"),
       },
-      body: JSON.stringify({ title, description, status, genre, release_date }),
+      body: JSON.stringify({ title, description, genre, release_date }),
     });
     const json = await response.json();
-    console.log(json);
+    // console.log(json);
 
     let newMovie = JSON.parse(JSON.stringify(Movies));
 
@@ -195,6 +193,7 @@ const MovieState = (props) => {
 
   // Get All Details Require for Admin
   var [AllDetails, setAllDetails] = useState("");
+  const [MovIdName, setMovIdName] = useState([]);
 
   const AdminDetails = async () => {
     const response = await fetch(
@@ -211,6 +210,14 @@ const MovieState = (props) => {
     setAllDetails(json);
     //   console.log("AllDetails", AllDetails);
     //   console.log("json", json);
+    // if (AllDetails) {
+    //   const tempmov = AllDetails.movies;
+    //   tempmov.map((mov) => {
+    //     console.log("mov", mov);
+    //     setMovIdName(...MovIdName, { id: mov._id, title: mov.title });
+    //   });
+    // }
+    console.log("movidname", MovIdName);
   };
 
   return (
@@ -231,6 +238,7 @@ const MovieState = (props) => {
         TicketCancel,
         AdminDetails,
         AllDetails,
+        MovIdName,
       }}
     >
       {props.children}

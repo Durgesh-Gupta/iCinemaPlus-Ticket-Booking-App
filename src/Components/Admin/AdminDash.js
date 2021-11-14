@@ -26,32 +26,36 @@ function AdminDash() {
     }
     //API Request For Adm9in Details
     getMovies();
+    console.log("Main movies",Movies)
     AdminDetails();
   }, []);
 
   const ref = useRef(null);
   const refClose = useRef(null);
-  const [Movie, setMovie] = useState("");
+  const [Movie, setMovie] = useState({is:"",etitle:"",edescription:"",egenre:""});
 
   const updateMovie = (currentMovie) => {
     ref.current.click();
+    console.log("currentMovie",currentMovie)
     setMovie({
       id: currentMovie._id,
       etitle: currentMovie.title,
       edescription: currentMovie.description,
-      erelease_date: currentMovie.release_date,
+      // erelease_date: currentMovie.release_date,
       egenre: currentMovie.genre,
     });
   };
 
   const handleClick = (e) => {
     e.preventDefault();
-    editMovie(
-      Movie.id,
-      Movie.etitle,
-      Movie.edescription,
-      Movie.egenre,
-      Movie.erelease_date
+    console.log("Movies",Movie)
+    editMovie({
+      id:currentMovie.id,
+      title:Movie.etitle,
+      description:Movie.edescription,
+      genre:Movie.egenre,
+      // Movie.erelease_date
+    }
     );
     refClose.current.click();
   };
@@ -73,6 +77,7 @@ function AdminDash() {
     //   console.log(mov.title.toLowerCase().includes(Search.toLowerCase()));
       return mov.status === "Current";
     }
+    console.log("Movie mod",MovieMod)
   });
   const SearchHandle = (e) => {
     setSearch(e.target.value);
@@ -194,7 +199,7 @@ function AdminDash() {
                     release_date
                   </label>
                   <input
-                    type="Date"
+                    type="text"
                     className="form-control"
                     id="erelease_date"
                     name="erelease_date"
@@ -203,7 +208,7 @@ function AdminDash() {
                     required
                   />
                 </div> */}
-                {/* <div className="mb-3">
+                <div className="mb-3">
                   <label htmlFor="genre" className="form-label">
                     genre
                   </label>
@@ -216,7 +221,7 @@ function AdminDash() {
                     onChange={onChange}
                     required
                   />
-                </div> */}
+                </div>
               </form>
             </div>
             <div className="modal-footer">

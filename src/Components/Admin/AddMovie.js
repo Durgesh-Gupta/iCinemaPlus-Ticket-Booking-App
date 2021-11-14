@@ -26,6 +26,11 @@ const AddMovie = () => {
     formData.append("genre", genre)
     addMovie(formData);
     console.log("Form Submitted")
+    setDescription("")
+    setTitle("")
+    setGenre("")
+    setRelease("")
+    setImage("")
 
   };
   return (

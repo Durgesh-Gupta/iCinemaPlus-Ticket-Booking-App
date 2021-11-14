@@ -17,7 +17,7 @@ const UserDetails = (props) => {
         </thead>
         <tbody>
       {users.map((user) => {
-        return <tr>
+        return <tr key={user._id}>
         <th scope="row"></th>
         <td>{user.name}</td>
         <td>{user.email}</td>

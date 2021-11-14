@@ -8,7 +8,7 @@ const MovieItem = (props) => {
 
 
 
-  // console.log(movie)
+  // console.log("Inside Eacg",movie)
   return (
     <div className="col-3">
       <div className="card" style={{ width: "18rem" }}>
