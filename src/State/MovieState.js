@@ -1,7 +1,6 @@
 import { useState } from "react";
 import MovieContext from "./MovieContext";
-import { useHistory } from 'react-router-dom'
-
+import { useHistory } from "react-router-dom";
 
 const MovieState = (props) => {
   const host = "http://localhost:5000";
@@ -9,8 +8,6 @@ const MovieState = (props) => {
   const [Movies, setMovies] = useState(initial);
   const [BookingDetails, setBookingDetails] = useState({});
   let history = useHistory();
-
-
 
   // Get Movies
   const getMovies = async () => {
@@ -25,32 +22,25 @@ const MovieState = (props) => {
   };
   //Add Movies
   // const addMovie = async (title,image, description, release_date, genre) => {
-  const addMovie = async (formData) => {
+  const addMovie = async formData => {
     console.log("formData", formData);
+    console.log(formData.has("imagoe"))
 
-    //Movies Model Status Logic
-    // var statusid=""
-    // const Today = new Date();
-    // const rd = new Date(release_date);
-    // if (Today < rd) {
-    //    statusid = "Coming Soon";
-    // } else {
-    //    statusid = "Current";
-    // }
+
+    
     //Api Request
     const response = await fetch(`${host}/api/movies/addmov`, {
       method: "POST",
       headers: {
-        "content-type": "application/json",
-        "auth-token": localStorage.getItem("token"),
-        // "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbiI6eyJpZCI6IjYxNzdlNzE5YjY3NWY3ODFkOWM2Mzc1NCJ9LCJpYXQiOjE2MzU3NzIyOTN9.JTb-sINP8sXKpJ7Bc2rCLVVDejeUla3gGFOH9yS6vAM",
+        // "content-type": "application/json",
+        "auth-token": localStorage.getItem("Authtoken"),
       },
       body: formData,
     });
 
     const movie = await response.json();
     console.log(movie, "-----Movie");
-    // setMovies(Movies.concat(movie));
+    setMovies(Movies.concat(movie));
   };
 
   //Delete Movies
@@ -203,6 +193,26 @@ const MovieState = (props) => {
     // }
   };
 
+  // Get All Details Require for Admin
+  var [AllDetails, setAllDetails] = useState("");
+
+  const AdminDetails = async () => {
+    const response = await fetch(
+      "http://localhost:5000/api/admin/adminDetails",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "auth-token": localStorage.getItem("Authtoken"),
+        },
+      }
+    );
+    const json = await response.json();
+    setAllDetails(json);
+    //   console.log("AllDetails", AllDetails);
+    //   console.log("json", json);
+  };
+
   return (
     <MovieContext.Provider
       value={{
@@ -215,7 +225,12 @@ const MovieState = (props) => {
         fetchBooking,
         BookingDetails,
         TicketBooking,
-        createUser,UserDetails ,UserDetail,TicketCancel
+        createUser,
+        UserDetails,
+        UserDetail,
+        TicketCancel,
+        AdminDetails,
+        AllDetails,
       }}
     >
       {props.children}

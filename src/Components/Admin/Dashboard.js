@@ -1,10 +1,10 @@
-import React from 'react'
+import React,{useContext} from 'react'
 import MovieContext from "../../State/MovieContext";
 
 
 const Dashboard = () => {
     const context = useContext(MovieContext);
-  const { Movies, getMovies, editMovie } = context;
+  const { Movies, getMovies, editMovie,AllDetails } = context;
     return (
         <div>
             <div className="row">

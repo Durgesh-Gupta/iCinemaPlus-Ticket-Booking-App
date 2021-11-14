@@ -17,11 +17,12 @@ const AddMovie = () => {
   const handleClick = (e) => {
     e.preventDefault();
     const formData =new FormData()
-
+    // console.log("titldes-image-released-genre",title,description,release_date,genre)
     formData.append("title",title)
     formData.append("description",description)
     formData.append("image", image)
     formData.append("release_date", release_date)
+    // console.log(formData.has("image"))
     formData.append("genre", genre)
     addMovie(formData);
     console.log("Form Submitted")

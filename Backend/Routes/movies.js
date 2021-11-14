@@ -31,18 +31,20 @@ router.post(
   adminauth,
   [
     body("title", "Enter Valid Tital for Movie").isLength({ min: 2 }),
-    body("description", "Enter valid Desc for Movies!").isLength({ min: 5 }),
+    body("description", "Enter valid Desc for Movies!").isLength({ min: 3 }),
   ],
   async (req, res) => {
     // try{
-    const { title, description, genre, release_date, status } = req.body;
+    // const { title } = req.body;
+    const { title, description, genre, release_date } = req.body;
+    // console.log("title, description, genre, release_date",title)
     try {
       var image = req.file.filename;
-      console.log();
+      // console.log();
     } catch {
       image = "Empty";
     }
-    console.log(req.file);
+    // console.log(req.file);
 
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -53,7 +55,15 @@ router.post(
     if (movies) {
       return res.status(400).json({ error: "Sorry Movie already exists" });
     }
-
+//Movies Status Logic
+    var status=""
+    const Today = new Date();
+    const rd = new Date(release_date);
+    if (Today < rd) {
+      status = "Coming Soon";
+    } else {
+      status = "Current";
+    }
     const movie = new Movies({
       title,
       description,
@@ -63,6 +73,8 @@ router.post(
       release_date,
     });
     const saveMovie = await movie.save();
+    // console.log(movie)
+    // res.send("done");
     res.send(saveMovie);
     // }
     // catch(error){

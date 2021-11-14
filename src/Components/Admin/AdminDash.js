@@ -9,14 +9,14 @@ import UserDetails from "./UserDetails";
 import AddShowtime from "./AddShowtime";
 import AdminNavbar from "./AdminNavbar";
 import Dashboard from "./Dashboard";
+import Reservations from "./Reservations";
 
 
 function AdminDash() {
   const context = useContext(MovieContext);
-  const { Movies, getMovies, editMovie } = context;
+  const { Movies, getMovies, editMovie ,AdminDetails,AllDetails} = context;
   const history = useHistory();
 
-  var [AllDetails, setAllDetails] = useState("");
   //Fetch All Moviews
   useEffect(() => {
     if (localStorage.getItem("Authtoken")) {
@@ -26,23 +26,6 @@ function AdminDash() {
     }
     //API Request For Adm9in Details
     getMovies();
-
-    const AdminDetails = async () => {
-      const response = await fetch(
-        "http://localhost:5000/api/admin/adminDetails",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "auth-token": localStorage.getItem("Authtoken"),
-          },
-        }
-      );
-      const json = await response.json();
-      setAllDetails(json);
-    //   console.log("AllDetails", AllDetails);
-    //   console.log("json", json);
-    };
     AdminDetails();
   }, []);
 
@@ -114,9 +97,12 @@ function AdminDash() {
     <div className="container-fluid">
       <div className="contaier">
         
-        <div className="container">
+          <div className="row">
         <Router>
+          <div className="col-2">
         <AdminNavbar/>
+        </div>
+        <div className="col-10">
         <Switch>
           <Route exact path="/">
             {/* <AddMovie /> */}
@@ -125,16 +111,21 @@ function AdminDash() {
           <Route exact path="/user">
             <UserDetails AllDetails={AllDetails}/>
           </Route>
+          <Route exact path="/movies">
+            <AddMovie/>
+          </Route>
           <Route exact path="/addshow">
             <AddShowtime/>
           </Route>
+          <Route exact path="/reservations">
+            <Reservations/>
+          </Route>
           </Switch>
+          </div>
           </Router>
-        </div>
+          </div>
       </div>
-      <button onClick={handleLogout} className="btn btn-primary">
-        Logout
-      </button>
+    
       {/* <AddMovie /> */}
       <button
         type="button"

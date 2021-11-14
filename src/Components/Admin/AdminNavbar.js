@@ -1,29 +1,46 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
+
 
 const AdminNavbar = () => {
+  const history=useHistory()
+  //LogOut
+  const handleLogout = () => {
+    localStorage.removeItem("Authtoken");
+    history.push("/Admin");
+  };
   return (
     <div>
-      <ul class="nav flex-column">
-        <li class="nav-item">
-          <Link class="nav-link" aria-current="page" to="/">
+      <ul className="nav flex-column bg-dark">
+        <li className="nav-item">
+          <Link className="nav-link" aria-current="page" to="/">
             Dashboard
           </Link>
         </li>
-        <li class="nav-item">
-          <Link class="nav-link" aria-current="page" to="/user">
+        <li className="nav-item">
+          <Link className="nav-link " to="/movies">
+           Movies
+          </Link>
+        </li>
+        <li className="nav-item">
+          <Link className="nav-link" aria-current="page" to="/user">
             Users
           </Link>
         </li>
-        <li class="nav-item">
-          <Link class="nav-link" to="/addshow">
-            Add Shows
+        <li className="nav-item">
+          <Link className="nav-link" to="/addshow">
+             ShowTime
           </Link>
         </li>
-        <li class="nav-item">
-          <Link class="nav-link" to="/">
-            AddU Movies
+        <li className="nav-item">
+          <Link className="nav-link" to="/reservations">
+             Reservation
           </Link>
+        </li>
+        <li className="nav-item">
+          <span className="nav-link" onClick={handleLogout}>
+LogOut          </span>
         </li>
       </ul>
     </div>
