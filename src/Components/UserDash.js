@@ -1,9 +1,9 @@
 import React, { useEffect, useContext } from "react";
-import UserContext from "../State/UserContext";
+import MovieContext from "../State/MovieContext";
 import NowShowing from "./NowShowing";
 
 const UserDash = () => {
-  const context = useContext(UserContext);
+  const context = useContext(MovieContext);
   const { UserDetails, UserDetail,TicketCancel } = context;
 
   useEffect(() => {

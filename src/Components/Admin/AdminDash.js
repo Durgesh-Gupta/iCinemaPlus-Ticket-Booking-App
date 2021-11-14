@@ -8,6 +8,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import UserDetails from "./UserDetails";
 import AddShowtime from "./AddShowtime";
 import AdminNavbar from "./AdminNavbar";
+import Dashboard from "./Dashboard";
 
 
 function AdminDash() {
@@ -112,54 +113,14 @@ function AdminDash() {
   return (
     <div className="container-fluid">
       <div className="contaier">
-        <div className="row">
-          <div className="col">
-            <div
-              class="card border-dark  mb-3"
-              //   style={{ maxWidth: "10rem" }}
-            >
-              <div class="card-header text-center">Total Movies</div>
-              <div class="card-body">
-                <h5 class="card-title text-center">{Movies.length}</h5>
-              </div>
-            </div>
-          </div>
-          <div className="col">
-            <div
-              class="card border-dark  mb-3"
-              //   style={{ maxWidth: "10rem" }}
-            >
-              <div class="card-header text-center">Total Users</div>
-              <div class="card-body">
-                <h5 class="card-title text-center">
-                  {AllDetails.users ? AllDetails.users.length : "Loading"}
-                </h5>
-              </div>
-            </div>
-          </div>
-          <div className="col">
-            <div
-              class="card border-dark  mb-3"
-              //   style={{ maxWidth: "10rem" }}
-            >
-              <div class="card-header text-center">Total Seats Available</div>
-              <div class="card-body">
-                <h5 class="card-title text-center">
-                  {AllDetails
-                    ? AllDetails.showtimes.length * 14 -
-                      AllDetails.reservations.length
-                    : "Loading"}
-                </h5>
-              </div>
-            </div>
-          </div>
-        </div>
+        
         <div className="container">
         <Router>
         <AdminNavbar/>
         <Switch>
           <Route exact path="/">
-            <AddMovie />
+            {/* <AddMovie /> */}
+            <Dashboard/>
           </Route>
           <Route exact path="/user">
             <UserDetails AllDetails={AllDetails}/>

@@ -9,7 +9,6 @@ import Cinemas from "./Components/Cinemas";
 import MovieState from "./State/MovieState";
 import Login from "./Components/Login";
 import SignUp from "./Components/SignUp";
-import UserState from "./State/UserState";
 import Booking from "./Components/Booking";
 import UserDash from "./Components/UserDash";
 import AdminDash from "./Components/Admin/AdminDash";
@@ -18,7 +17,6 @@ import AdminLogin from "./Components/Admin/AdminLogin";
 function App() {
   return (
     <MovieState>
-            <UserState>
     <Router>
       <Switch>
         <Route exact path="/Admin">
@@ -62,7 +60,6 @@ function App() {
         </Route>
       </Switch>
     </Router>
-    </UserState>
           </MovieState>
   );
 }

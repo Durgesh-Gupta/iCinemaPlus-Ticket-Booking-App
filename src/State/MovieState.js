@@ -1,11 +1,16 @@
 import { useState } from "react";
 import MovieContext from "./MovieContext";
+import { useHistory } from 'react-router-dom'
+
 
 const MovieState = (props) => {
   const host = "http://localhost:5000";
   const initial = [];
   const [Movies, setMovies] = useState(initial);
   const [BookingDetails, setBookingDetails] = useState({});
+  let history = useHistory();
+
+
 
   // Get Movies
   const getMovies = async () => {
@@ -141,8 +146,62 @@ const MovieState = (props) => {
     }
   };
 
- 
+  //  User Related States
+  const [UserDetail, setUserDetail] = useState("");
 
+  const createUser = async (User) => {
+    const { name, email, contact, password } = User;
+    const response = await fetch(`${host}/api/auth/createuser`, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({ name, email, contact, password }),
+    });
+
+    const user = await response.json();
+    console.log(user);
+    if (user) {
+      // Save the auth token and redirect
+      localStorage.setItem("token", user.authtoken);
+      history.push("/");
+    } else {
+      alert("Invalid credentials");
+    }
+  };
+
+  // Login User Details
+  const UserDetails = async () => {
+    const response = await fetch(`${host}/api/auth/getuser`, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        "auth-token": localStorage.getItem("token"),
+      },
+    });
+    const json = await response.json();
+    // console.log("json",json)
+
+    setUserDetail(json);
+  };
+
+  //Ticket Cancel
+  const TicketCancel = async (id) => {
+    console.log("stete", id);
+
+    //API CAll
+    const response = await fetch(`${host}/api/booking/cancel/${id}`, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        "auth-token": localStorage.getItem("token"),
+      },
+    });
+    const json = await response.json();
+    console.log(json);
+
+    // }
+  };
 
   return (
     <MovieContext.Provider
@@ -156,6 +215,7 @@ const MovieState = (props) => {
         fetchBooking,
         BookingDetails,
         TicketBooking,
+        createUser,UserDetails ,UserDetail,TicketCancel
       }}
     >
       {props.children}

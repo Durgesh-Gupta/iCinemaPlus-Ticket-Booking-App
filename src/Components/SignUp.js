@@ -1,8 +1,8 @@
 import React, { useState,useContext } from 'react'
-import UserContext from '../State/UserContext'
+import MovieContext from '../State/MovieContext'
 
 const SignUp = () => {
-    const context = useContext(UserContext)
+    const context = useContext(MovieContext)
     const {createUser}=context
     const [User, setUser] = useState({name:"",email:"",contact:null,password:"",cpassword:""})
     const onChange = (e) => {
