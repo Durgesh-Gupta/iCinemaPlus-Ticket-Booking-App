@@ -3,9 +3,8 @@ import MovieContext from "../../State/MovieContext";
 
 const AddShowtime = () => {
   const context = useContext(MovieContext);
-  const { AllDetails, MovIdName } = context;
+  const { AllDetails } = context;
   const tempmov={}
-  console.log(MovIdName);
   if (AllDetails) {
     AllDetails.movies.map((mov) => {
       tempmov[mov._id]=mov.title;

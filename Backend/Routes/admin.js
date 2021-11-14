@@ -92,14 +92,16 @@ router.post(
   router.post("/adminDetails", adminauth,async (req, res) => {
     // All Details
     const mov=await Movies.find()
-    console.log(mov.length)
+    // console.log(mov.length)
     const user = await User.find().select("-password");
-    console.log(user)
+    // console.log(user)
     const reser=await Reservation.find()
     const showtime=await ShowTime.find()
+    const seats=await Seats.find()
+    console.log("seats",seats)
 
 
-    res.json({movies:mov,users:user,reservations:reser,showtimes:showtime});
+    res.json({movies:mov,users:user,reservations:reser,showtimes:showtime,seats:seats});
   });
 
 module.exports = router;
