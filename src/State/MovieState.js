@@ -49,8 +49,8 @@ const MovieState = (props) => {
       method: "PUT",
       headers: {
         "content-type": "application/json",
-        "auth-token":
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbiI6eyJpZCI6IjYxNzdlNzE5YjY3NWY3ODFkOWM2Mzc1NCJ9LCJpYXQiOjE2MzU3NzIyOTN9.JTb-sINP8sXKpJ7Bc2rCLVVDejeUla3gGFOH9yS6vAM",
+        "auth-token":localStorage.getItem("Authtoken")
+          ,
       },
     });
     const json = await response.json();
@@ -122,7 +122,7 @@ const MovieState = (props) => {
         headers: {
           "content-type": "application/json",
           "auth-token":
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjE3YWE3Nzg5MjRjOGViY2Q2N2VhYjQxIn0sImlhdCI6MTYzNjU0NDU5N30.J9zcTMil4Ib85GwAaBwrTrSEGYcL1oosE24yVc04190",
+          localStorage.getItem("token"),
         },
         body: JSON.stringify({ showtime, seat_no: seat_arr[index] }),
       });
@@ -220,6 +220,47 @@ const MovieState = (props) => {
     console.log("movidname", MovIdName);
   };
 
+  // Deleting ShowTime
+   const deleteShow = async (id) => {
+    //API CAll
+    const response = await fetch(`${host}/api/show/deleteshow/${id}`, {
+      method: "PUT",
+      headers: {
+        "content-type": "application/json",
+        "auth-token":localStorage.getItem("Authtoken")
+          ,
+      },
+    });
+    const json = await response.json();
+    console.log(json);
+
+    // const newMovie = Movies.filter((movie) => {
+    //   return movie._id !== id;
+    // });
+    // setMovies(newMovie);
+  };
+  // Deleting User
+   const deleteUser = async (id) => {
+    //API CAll
+    const response = await fetch(`${host}/api/auth/deleteuser/${id}`, {
+      method: "PUT",
+      headers: {
+        "content-type": "application/json",
+        "auth-token":localStorage.getItem("Authtoken")
+          ,
+      },
+    });
+    const json = await response.json();
+    console.log(json);
+
+    // const newMovie = Movies.filter((movie) => {
+    //   return movie._id !== id;
+    // });
+    // setMovies(newMovie);
+  };
+
+
+
   return (
     <MovieContext.Provider
       value={{
@@ -239,6 +280,8 @@ const MovieState = (props) => {
         AdminDetails,
         AllDetails,
         MovIdName,
+        deleteShow,
+        deleteUser,
       }}
     >
       {props.children}

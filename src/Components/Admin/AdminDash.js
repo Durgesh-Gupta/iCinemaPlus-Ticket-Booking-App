@@ -100,16 +100,15 @@ function AdminDash() {
 
   return (
     <div className="container-fluid">
-      <div className="contaier">
         
           <div className="row">
         <Router>
-          <div className="col-2">
+          <div className="col-3">
         <AdminNavbar/>
         </div>
-        <div className="col-10">
+        <div className="col-9">
         <Switch>
-          <Route exact path="/">
+          <Route exact path="/AdminDash">
             {/* <AddMovie /> */}
             <Dashboard/>
           </Route>
@@ -129,7 +128,6 @@ function AdminDash() {
           </div>
           </Router>
           </div>
-      </div>
     
       {/* <AddMovie /> */}
       <button

@@ -64,7 +64,7 @@ router.put("/deleteshow/:id", adminauth, async (req, res) => {
     return res.status(404).send("Show Not Found");
   }
 
-  //Deleting movies
+  //Deleting Show
   show = await ShowTime.findByIdAndUpdate(req.params.id ,{
    IS_DELETE:true
   }

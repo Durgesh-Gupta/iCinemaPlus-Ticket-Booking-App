@@ -1,7 +1,10 @@
-import React from "react";
+import React,{useContext} from "react";
+import MovieContext from "../../State/MovieContext";
 
 const UserDetails = (props) => {
-  const { users } = props.AllDetails;
+  const context = useContext(MovieContext);
+  const { AllDetails,deleteUser } = context;
+  const users= AllDetails.users;
   console.log(typeof users);
   return (
     <div>
@@ -13,6 +16,7 @@ const UserDetails = (props) => {
             <th scope="col">Name</th>
             <th scope="col">Email</th>
             <th scope="col">Contact</th>
+            <th scope="col">Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -22,6 +26,18 @@ const UserDetails = (props) => {
         <td>{user.name}</td>
         <td>{user.email}</td>
         <td>{user.contact}</td>
+        <td><i
+              className="bi bi-trash mx-2"
+              onClick={() => {
+                deleteUser(user._id);
+              }}
+            ></i>
+            <i
+              className="bi bi-pencil-square mx-2"
+              // onClick={() => {
+              //   updateMovie(movie);
+              // }}
+            ></i></td>
       </tr>;
       })}
           

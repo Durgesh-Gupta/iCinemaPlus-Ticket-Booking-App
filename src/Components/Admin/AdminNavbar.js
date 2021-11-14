@@ -14,7 +14,7 @@ const AdminNavbar = () => {
     <div>
       <ul className="nav flex-column bg-dark">
         <li className="nav-item">
-          <Link className="nav-link" aria-current="page" to="/">
+          <Link className="nav-link" aria-current="page" to="/AdminDash">
             Dashboard
           </Link>
         </li>

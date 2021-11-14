@@ -3,7 +3,7 @@ import MovieContext from "../../State/MovieContext";
 
 const AddShowtime = () => {
   const context = useContext(MovieContext);
-  const { AllDetails } = context;
+  const { AllDetails,deleteShow } = context;
   const tempmov={}
   if (AllDetails) {
     AllDetails.movies.map((mov) => {
@@ -22,6 +22,7 @@ const AddShowtime = () => {
             <th scope="col">Movie</th>
             <th scope="col">Theater</th>
             <th scope="col">Time</th>
+            <th scope="col">Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -32,6 +33,18 @@ const AddShowtime = () => {
                 <td>{tempmov[st.movie]}</td>
                 <td>{st.theater}</td>
                 <td>{st.time}</td>
+                <td><i
+              className="bi bi-trash mx-2"
+              onClick={() => {
+                deleteShow(st._id);
+              }}
+            ></i>
+            <i
+              className="bi bi-pencil-square mx-2"
+              // onClick={() => {
+              //   updateMovie(movie);
+              // }}
+            ></i></td>
               </tr>
             );
           })}
