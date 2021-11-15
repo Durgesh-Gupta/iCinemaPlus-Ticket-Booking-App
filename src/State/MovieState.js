@@ -21,6 +21,8 @@ const MovieState = (props) => {
     setMovies(json);
     // console.log("json", json);
   };
+
+
   //Add Movies
   // const addMovie = async (title,image, description, release_date, genre) => {
   const addMovie = async (formData) => {
@@ -186,7 +188,7 @@ const MovieState = (props) => {
       },
     });
     const json = await response.json();
-    // console.log(json);
+    console.log(json);
 
     // }
   };
@@ -320,6 +322,24 @@ const MovieState = (props) => {
       // setMovies(newMovie);
     };
   
+    // Add Showtime
+  const addShowtime = async ({movie,theater,time}) => {
+    console.log("check in state",movie,theater,time)
+ 
+
+    //Api Request
+    const response = await fetch(`${host}/api/show/createShow`, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        // "auth-token": localStorage.getItem("Authtoken"),
+      },
+      body: JSON.stringify({movie,theater,time}),
+    });
+
+    const newshow = await response.json();
+    console.log("New Show",newshow);
+  };
 
 
 
@@ -346,6 +366,7 @@ const MovieState = (props) => {
         deleteUser,
         updateShowTime,
         updateUserd,
+        addShowtime,
       }}
     >
       {props.children}

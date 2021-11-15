@@ -3,7 +3,7 @@ import MovieContext from "../../State/MovieContext";
 
 const AddShowtime = () => {
   const context = useContext(MovieContext);
-  const { AllDetails, deleteShow,updateShowTime } = context;
+  const { AllDetails, deleteShow, updateShowTime, addShowtime } = context;
   const tempmov = {};
   if (AllDetails) {
     AllDetails.movies.map((mov) => {
@@ -14,30 +14,95 @@ const AddShowtime = () => {
   const showtime = AllDetails.showtimes;
 
   // Update Modal
-  const ref = useRef(null)
-    const refClose = useRef(null)
-    const [eshowtime, seteshowtime] = useState({id: "",emovie:"",etheater:"", etime: ""})
+  const ref = useRef(null);
+  const refClose = useRef(null);
+  const [eshowtime, seteshowtime] = useState({
+    id: "",
+    emovie: "",
+    etheater: "",
+    etime: "",
+  });
 
-    const updateShow = (show) => {
-        ref.current.click();
-        console.log("show",show)
-        console.log("movie",show.movie)
-        seteshowtime({id: show._id, emovie: show.movie, etheater: show.theater, etime:show.time})
-    }
+  const updateShow = (show) => {
+    ref.current.click();
+    console.log("show", show);
+    console.log("movie", show.movie);
+    seteshowtime({
+      id: show._id,
+      emovie: show.movie,
+      etheater: show.theater,
+      etime: show.time,
+    });
+  };
 
-    const handleClick = (e)=>{ 
-      // console.log(e)
-      updateShowTime({id:eshowtime.id,time:eshowtime.etime})
-        refClose.current.click();
-    }
+  const handleClick = (e) => {
+    // console.log(e)
+    updateShowTime({ id: eshowtime.id, time: eshowtime.etime });
+    refClose.current.click();
+  };
 
-    const onChange = (e)=>{
-        seteshowtime({...eshowtime, [e.target.name]: e.target.value})
-    }
+  const onChange = (e) => {
+    seteshowtime({ ...eshowtime, [e.target.name]: e.target.value });
+  };
+  // Add Showtime
+  const [newshow, setnewshow] = useState({
+    movie: "",
+    theater: "",
+    time: "",
+  });
+  const onshowChange = (e) => {
+    setnewshow({ ...newshow, [e.target.name]: e.target.value });
+  };
+  const handleshowSubmit = (e) => {
+    e.preventDefault();
+    console.log("new Show:",newshow)
+    addShowtime(newshow);
+  };
 
-    
   return (
     <div>
+      <form onSubmit={handleshowSubmit}>
+        <div className="form-group col-6">
+          <label htmlFor="name">Movie</label>
+          <input
+            type="text"
+            required
+            className="form-control"
+            id="movie"
+            name="movie"
+            onChange={onshowChange}
+            value={newshow.movie}
+          />
+        </div>
+        <div className="form-group col-6">
+          <label htmlFor="email">Theater</label>
+          <input
+            type="text"
+            required
+            className="form-control"
+            id="theater"
+            name="theater"
+            onChange={onshowChange}
+            value={newshow.theater}
+          />
+        </div>
+        <div className="form-group col-6">
+          <label htmlFor="contact">Time</label>
+          <input
+            type="text"
+            required
+            className="form-control"
+            name="time"
+            id="time"
+            onChange={onshowChange}
+            value={newshow.time}
+          />
+        </div>
+
+        <button type="submit" className="btn btn-primary">
+          Submit
+        </button>
+      </form>
       <h1>Showtime</h1>
       <table className="table table-dark">
         <thead>
@@ -76,7 +141,7 @@ const AddShowtime = () => {
           })}
         </tbody>
       </table>
-      // Update Modal
+      {/* Update Modal */}
       <button
         ref={ref}
         type="button"
@@ -112,7 +177,8 @@ const AddShowtime = () => {
                   <label htmlFor="title" className="form-label">
                     Movie
                   </label>
-                  <input disabled
+                  <input
+                    disabled
                     type="text"
                     className="form-control"
                     id="emovie"

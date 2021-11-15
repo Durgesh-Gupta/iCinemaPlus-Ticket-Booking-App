@@ -44,6 +44,7 @@ console.log(UserDetail)
     const revId = rev.find((revd) => revd.seat_no === seat);
     console.log(revId._id)
     // TicketCancel
+    TicketCancel(revId._id)
     
   }
 
