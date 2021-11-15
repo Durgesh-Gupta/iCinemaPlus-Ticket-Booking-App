@@ -19,15 +19,11 @@ const MovieState = (props) => {
     });
     const json = await response.json();
     setMovies(json);
-    // console.log("json", json);
   };
 
   //Add Movies
-  // const addMovie = async (title,image, description, release_date, genre) => {
   const addMovie = async (formData) => {
-    // console.log("formData", formData);
-    // console.log(formData.has("imagoe"));
-
+    
     //Api Request
     const response = await fetch(`${host}/api/movies/addmov`, {
       method: "POST",
@@ -39,7 +35,6 @@ const MovieState = (props) => {
     });
 
     const movie = await response.json();
-    // console.log(movie, "-----Movie");
     setMovies(Movies.concat(movie));
   };
 
@@ -54,7 +49,7 @@ const MovieState = (props) => {
       },
     });
     const json = await response.json();
-    // console.log(json);
+    console.log(json);
 
     const newMovie = Movies.filter((movie) => {
       return movie._id !== id;
@@ -81,7 +76,7 @@ const MovieState = (props) => {
       body: JSON.stringify({ title, description, genre, release_date }),
     });
     const json = await response.json();
-    // console.log(json);
+    console.log(json);
 
     let newMovie = JSON.parse(JSON.stringify(Movies));
 
@@ -113,8 +108,7 @@ const MovieState = (props) => {
 
   //Ticket Booking Request
   const TicketBooking = async (showtime, seat_arr) => {
-    // console.log("seat_arr", seat_arr);
-    // console.log("shotime", showtime);
+    
     for (let index = 0; index < seat_arr.length; index++) {
       //API CAll
       const response = await fetch(`${host}/api/booking/select`, {
@@ -126,7 +120,7 @@ const MovieState = (props) => {
         body: JSON.stringify({ showtime, seat_no: seat_arr[index] }),
       });
       const json = await response.json();
-      // console.log(json);
+      console.log(json);
       {
         alert("Ticket Booked!!!");
       }
@@ -147,7 +141,6 @@ const MovieState = (props) => {
     });
 
     const user = await response.json();
-    // console.log(user);
     if (user) {
       // Save the auth token and redirect
       localStorage.setItem("token", user.authtoken);
@@ -168,13 +161,11 @@ const MovieState = (props) => {
     });
     const json = await response.json();
     // console.log("json",json)
-
     setUserDetail(json);
   };
 
   //Ticket Cancel
   const TicketCancel = async (id) => {
-    // console.log("stete", id);
 
     //API CAll
     const response = await fetch(`${host}/api/booking/cancel/${id}`, {
@@ -210,17 +201,6 @@ const MovieState = (props) => {
     setAllDetails(json);
     const temshow = await json;
     setshowtime(temshow.showtimes);
-
-    //   console.log("AllDetails", AllDetails);
-    //   console.log("json", json);
-    // if (AllDetails) {
-    //   const tempmov = AllDetails.movies;
-    //   tempmov.map((mov) => {
-    //     console.log("mov", mov);
-    //     setMovIdName(...MovIdName, { id: mov._id, title: mov.title });
-    //   });
-    // }
-    // console.log("movidname", MovIdName);
   };
 
   // Deleting ShowTime
@@ -235,12 +215,9 @@ const MovieState = (props) => {
     });
     const json = await response.json();
 
-    // console.log(json);
+    console.log(json);
 
     const newshow = showtime
-    // .filter((show) => {
-    //   return show._id !== id;
-    // });
 
     let objIndex = newshow.findIndex((obj) => obj._id == id);
     console.log("Object",objIndex)
@@ -261,12 +238,9 @@ const MovieState = (props) => {
       },
     });
     const json = await response.json();
-    // console.log(json);
+    console.log(json);
 
-    // const newMovie = Movies.filter((movie) => {
-    //   return movie._id !== id;
-    // });
-    // setMovies(newMovie);
+ 
   };
 
   // Update ShowTime
@@ -285,19 +259,6 @@ const MovieState = (props) => {
     const json = await response.json();
     console.log(json);
 
-    // let newMovie = JSON.parse(JSON.stringify(Movies));
-
-    // for (let index = 0; index < newMovie.length; index++) {
-    //   const element = newMovie[index];
-    //   if (element._id === id) {
-    //     newMovie[index].title = title;
-    //     newMovie[index].description = description;
-    //     newMovie[index].release_date = release_date;
-    //     newMovie[index].genre = genre;
-    //     break;
-    //   }
-    // }
-    // setMovies(newMovie);
   };
 
   // Update User
@@ -314,19 +275,6 @@ const MovieState = (props) => {
     const json = await response.json();
     console.log(json);
 
-    // let newMovie = JSON.parse(JSON.stringify(Movies));
-
-    // for (let index = 0; index < newMovie.length; index++) {
-    //   const element = newMovie[index];
-    //   if (element._id === id) {
-    //     newMovie[index].title = title;
-    //     newMovie[index].description = description;
-    //     newMovie[index].release_date = release_date;
-    //     newMovie[index].genre = genre;
-    //     break;
-    //   }
-    // }
-    // setMovies(newMovie);
   };
 
   // Add Showtime

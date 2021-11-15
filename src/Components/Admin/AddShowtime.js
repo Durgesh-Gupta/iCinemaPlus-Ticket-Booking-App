@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState,useEffect } from "react";
+import React, { useContext, useRef, useState } from "react";
 import MovieContext from "../../State/MovieContext";
 
 
@@ -10,7 +10,7 @@ const AddShowtime = () => {
   if (AllDetails) {
     console.log("import showtime",showtime)
     AllDetails.movies.map((mov) => {
-      tempmov[mov._id] = mov.title;
+     return tempmov[mov._id] = mov.title;
     });
     // console.log(tempmov);
   }
@@ -22,9 +22,9 @@ const AddShowtime = () => {
       etime: "Loading....",
     }
   }
-  useEffect(() => {
-    console.log(showtime)
-  }, showtime)
+  // useEffect(() => {
+  //   console.log(showtime)
+  // }, showtime)
   // const showtime = AllDetails.showtimes;
   // setshowtime(AllDetails.showtimes);
 
