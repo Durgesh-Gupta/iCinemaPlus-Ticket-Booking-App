@@ -1,17 +1,32 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useRef, useState,useEffect } from "react";
 import MovieContext from "../../State/MovieContext";
+
 
 const AddShowtime = () => {
   const context = useContext(MovieContext);
   const { AllDetails, deleteShow, updateShowTime, addShowtime } = context;
+  var { showtime } = context;
   const tempmov = {};
   if (AllDetails) {
+    console.log("import showtime",showtime)
     AllDetails.movies.map((mov) => {
       tempmov[mov._id] = mov.title;
     });
     // console.log(tempmov);
   }
-  const showtime = AllDetails.showtimes;
+  else{
+     showtime={
+      id: "Loading....",
+      emovie: "Loading....",
+      etheater: "Loading....",
+      etime: "Loading....",
+    }
+  }
+  useEffect(() => {
+    console.log(showtime)
+  }, showtime)
+  // const showtime = AllDetails.showtimes;
+  // setshowtime(AllDetails.showtimes);
 
   // Update Modal
   const ref = useRef(null);
@@ -118,7 +133,9 @@ const AddShowtime = () => {
           {showtime.map((st) => {
             return (
               <tr key={st._id}>
-                <th scope="row"></th>
+                <th scope="row">
+                  <span className={`badge bg-${st.IS_DELETE ? "danger" : "success"}`}>{st.IS_DELETE ? "True" : "False"}</span>
+                  </th>
                 <td>{tempmov[st.movie]}</td>
                 <td>{st.theater}</td>
                 <td>{st.time}</td>

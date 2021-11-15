@@ -1,10 +1,14 @@
 import React, { useState,useContext } from 'react'
 import MovieContext from '../State/MovieContext'
+import { useHistory } from "react-router-dom";
+
 
 const SignUp = () => {
-    const context = useContext(MovieContext)
-    const {createUser}=context
+    // const context = useContext(MovieContext)
+    // const {createUser}=context
     const [User, setUser] = useState({name:"",email:"",contact:null,password:"",cpassword:""})
+    let history = useHistory();
+
     const onChange = (e) => {
         setUser({...User,[e.target.name]: e.target.value });
 
@@ -15,6 +19,29 @@ const SignUp = () => {
 
 
       }
+
+      // Signup
+      
+  const createUser = async (User) => {
+    const { name, email, contact, password } = User;
+    const response = await fetch(`http://localhost:5000/api/auth/createuser`, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({ name, email, contact, password }),
+    });
+
+    const user = await response.json();
+    // console.log(user);
+    if (user) {
+      // Save the auth token and redirect
+      localStorage.setItem("token", user.authtoken);
+      history.push("/");
+    } else {
+      alert("Invalid credentials");
+    }
+  };
     return (
         <div className="container">
             <form onSubmit={handleSubmit}>

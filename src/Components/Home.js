@@ -12,6 +12,11 @@ function Home() {
     getMovies();
   }, []);
 
+  //   filter Mov
+const NotDele=Movies.filter((mov)=>{
+  return mov.IS_DELETE==false
+})
+
   return (
     <div className="container-fluid">
     
@@ -19,7 +24,7 @@ function Home() {
         <div className="col-12">
           <h4>Recommanded Movies</h4>
           <div className="row">
-          {Movies.map((movies) => {
+          {NotDele.map((movies) => {
             return (
               <MovieshowCase
                 key={movies._id}

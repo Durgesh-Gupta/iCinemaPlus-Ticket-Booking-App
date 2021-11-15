@@ -22,7 +22,6 @@ const MovieState = (props) => {
     // console.log("json", json);
   };
 
-
   //Add Movies
   // const addMovie = async (title,image, description, release_date, genre) => {
   const addMovie = async (formData) => {
@@ -51,8 +50,7 @@ const MovieState = (props) => {
       method: "PUT",
       headers: {
         "content-type": "application/json",
-        "auth-token":localStorage.getItem("Authtoken")
-          ,
+        "auth-token": localStorage.getItem("Authtoken"),
       },
     });
     const json = await response.json();
@@ -123,8 +121,7 @@ const MovieState = (props) => {
         method: "POST",
         headers: {
           "content-type": "application/json",
-          "auth-token":
-          localStorage.getItem("token"),
+          "auth-token": localStorage.getItem("token"),
         },
         body: JSON.stringify({ showtime, seat_no: seat_arr[index] }),
       });
@@ -196,6 +193,7 @@ const MovieState = (props) => {
   // Get All Details Require for Admin
   var [AllDetails, setAllDetails] = useState("");
   const [MovIdName, setMovIdName] = useState([]);
+  const [showtime, setshowtime] = useState([]);
 
   const AdminDetails = async () => {
     const response = await fetch(
@@ -210,6 +208,9 @@ const MovieState = (props) => {
     );
     const json = await response.json();
     setAllDetails(json);
+    const temshow = await json;
+    setshowtime(temshow.showtimes);
+
     //   console.log("AllDetails", AllDetails);
     //   console.log("json", json);
     // if (AllDetails) {
@@ -223,33 +224,40 @@ const MovieState = (props) => {
   };
 
   // Deleting ShowTime
-   const deleteShow = async (id) => {
+  const deleteShow = async (id) => {
     //API CAll
     const response = await fetch(`${host}/api/show/deleteshow/${id}`, {
       method: "PUT",
       headers: {
         "content-type": "application/json",
-        "auth-token":localStorage.getItem("Authtoken")
-          ,
+        "auth-token": localStorage.getItem("Authtoken"),
       },
     });
     const json = await response.json();
+
     // console.log(json);
 
-    // const newMovie = Movies.filter((movie) => {
-    //   return movie._id !== id;
+    const newshow = showtime
+    // .filter((show) => {
+    //   return show._id !== id;
     // });
-    // setMovies(newMovie);
+
+    let objIndex = newshow.findIndex((obj) => obj._id == id);
+    console.log("Object",objIndex)
+ 
+    //Update object's name property.
+    newshow[objIndex].IS_DELETE = true;
+    console.log("New Show Value",newshow)
+    setshowtime(newshow);
   };
   // Deleting User
-   const deleteUser = async (id) => {
+  const deleteUser = async (id) => {
     //API CAll
     const response = await fetch(`${host}/api/auth/deleteuser/${id}`, {
       method: "PUT",
       headers: {
         "content-type": "application/json",
-        "auth-token":localStorage.getItem("Authtoken")
-          ,
+        "auth-token": localStorage.getItem("Authtoken"),
       },
     });
     const json = await response.json();
@@ -262,70 +270,68 @@ const MovieState = (props) => {
   };
 
   // Update ShowTime
-    const updateShowTime = async ({id,time}) => {
-      console.log("id time",id,time)
-     
-      //API CALL
-      const response = await fetch(`${host}/api/show/updateShow/${id}`, {
-        method: "PUT",
-        headers: {
-          "content-type": "application/json",
-          "auth-token": localStorage.getItem("Authtoken"),
-        },
-        body: JSON.stringify({time}),
-      });
-      const json = await response.json();
-      console.log(json);
-  
-      // let newMovie = JSON.parse(JSON.stringify(Movies));
-  
-      // for (let index = 0; index < newMovie.length; index++) {
-      //   const element = newMovie[index];
-      //   if (element._id === id) {
-      //     newMovie[index].title = title;
-      //     newMovie[index].description = description;
-      //     newMovie[index].release_date = release_date;
-      //     newMovie[index].genre = genre;
-      //     break;
-      //   }
-      // }
-      // setMovies(newMovie);
-    };
-  
+  const updateShowTime = async ({ id, time }) => {
+    console.log("id time", id, time);
+
+    //API CALL
+    const response = await fetch(`${host}/api/show/updateShow/${id}`, {
+      method: "PUT",
+      headers: {
+        "content-type": "application/json",
+        "auth-token": localStorage.getItem("Authtoken"),
+      },
+      body: JSON.stringify({ time }),
+    });
+    const json = await response.json();
+    console.log(json);
+
+    // let newMovie = JSON.parse(JSON.stringify(Movies));
+
+    // for (let index = 0; index < newMovie.length; index++) {
+    //   const element = newMovie[index];
+    //   if (element._id === id) {
+    //     newMovie[index].title = title;
+    //     newMovie[index].description = description;
+    //     newMovie[index].release_date = release_date;
+    //     newMovie[index].genre = genre;
+    //     break;
+    //   }
+    // }
+    // setMovies(newMovie);
+  };
+
   // Update User
-    const updateUserd = async ({id,name,contact,email}) => {
-     
-      //API CALL
-      const response = await fetch(`${host}/api/auth/updateuser/${id}`, {
-        method: "PUT",
-        headers: {
-          "content-type": "application/json",
-          "auth-token": localStorage.getItem("Authtoken"),
-        },
-        body: JSON.stringify({name,contact,email}),
-      });
-      const json = await response.json();
-      console.log(json);
-  
-      // let newMovie = JSON.parse(JSON.stringify(Movies));
-  
-      // for (let index = 0; index < newMovie.length; index++) {
-      //   const element = newMovie[index];
-      //   if (element._id === id) {
-      //     newMovie[index].title = title;
-      //     newMovie[index].description = description;
-      //     newMovie[index].release_date = release_date;
-      //     newMovie[index].genre = genre;
-      //     break;
-      //   }
-      // }
-      // setMovies(newMovie);
-    };
-  
-    // Add Showtime
-  const addShowtime = async ({movie,theater,time}) => {
-    console.log("check in state",movie,theater,time)
- 
+  const updateUserd = async ({ id, name, contact, email }) => {
+    //API CALL
+    const response = await fetch(`${host}/api/auth/updateuser/${id}`, {
+      method: "PUT",
+      headers: {
+        "content-type": "application/json",
+        "auth-token": localStorage.getItem("Authtoken"),
+      },
+      body: JSON.stringify({ name, contact, email }),
+    });
+    const json = await response.json();
+    console.log(json);
+
+    // let newMovie = JSON.parse(JSON.stringify(Movies));
+
+    // for (let index = 0; index < newMovie.length; index++) {
+    //   const element = newMovie[index];
+    //   if (element._id === id) {
+    //     newMovie[index].title = title;
+    //     newMovie[index].description = description;
+    //     newMovie[index].release_date = release_date;
+    //     newMovie[index].genre = genre;
+    //     break;
+    //   }
+    // }
+    // setMovies(newMovie);
+  };
+
+  // Add Showtime
+  const addShowtime = async ({ movie, theater, time }) => {
+    console.log("check in state", movie, theater, time);
 
     //Api Request
     const response = await fetch(`${host}/api/show/createShow`, {
@@ -334,14 +340,12 @@ const MovieState = (props) => {
         "content-type": "application/json",
         // "auth-token": localStorage.getItem("Authtoken"),
       },
-      body: JSON.stringify({movie,theater,time}),
+      body: JSON.stringify({ movie, theater, time }),
     });
 
     const newshow = await response.json();
-    console.log("New Show",newshow);
+    console.log("New Show", newshow);
   };
-
-
 
   return (
     <MovieContext.Provider
@@ -367,6 +371,8 @@ const MovieState = (props) => {
         updateShowTime,
         updateUserd,
         addShowtime,
+        showtime,
+        setshowtime,
       }}
     >
       {props.children}

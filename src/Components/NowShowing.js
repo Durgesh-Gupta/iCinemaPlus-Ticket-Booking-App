@@ -33,7 +33,7 @@ const NowShowing = () => {
 
   //Paginamtion
   const [currentPage, setcurrentPage] = useState(1);
-  const [MovPerPage, setMovPerPage] = useState(1);
+  const [MovPerPage, setMovPerPage] = useState(2);
 
   const indexOfLast = currentPage * MovPerPage;
   const indexOfFirst = indexOfLast - MovPerPage;

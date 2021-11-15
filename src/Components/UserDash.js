@@ -29,8 +29,8 @@ console.log(UserDetail)
     var seat_arr= [
         {
           "_id": false,
-          "showtime": "Loading...",
-          "seat_no": "Loading..",
+          "showtime": "No Booking",
+          "seat_no": "",
           "status": false,
           "__v": 0
         }
@@ -68,7 +68,7 @@ console.log(UserDetail)
               {seat_arr.map((seats) => {
                 return (
                   <tr>
-                    <th scope="row">1</th>
+                    <th scope="row"></th>
                     <td>{seats.showtime}</td>
                     <td>{seats.seat_no}</td>
                     <td ><span className={`CancleBtn ${seats._id?"":"d-none"}`} onClick={()=>hancleCancel(seats._id)}> Cancel Booking</span></td>
