@@ -119,8 +119,8 @@ router.put("/updatemov/:id", adminauth, async (req, res) => {
     // { new: true }
   );
 
-  // res.json({ movie });
-  res.send("Done2")
+  res.json(movie);
+  // res.send("Done2")
 });
 //Route 3:Delete Movie  -Admin side
 

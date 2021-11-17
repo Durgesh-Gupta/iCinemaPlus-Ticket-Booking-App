@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 
 
 const Pagination = ({ MovPerPage, totalMov,paginate }) => {
@@ -8,9 +7,7 @@ const Pagination = ({ MovPerPage, totalMov,paginate }) => {
     // console.log("i", i);
     pageNumber.push(i);
   }
-  pageNumber.map((num) => {
-    // console.log("map", num);
-  });
+ 
   return (
     <nav aria-label="Page navigation example">
       <ul className="pagination">

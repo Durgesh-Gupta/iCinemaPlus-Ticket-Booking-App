@@ -82,14 +82,18 @@ const Booking = () => {
 
     var showidtime = BookingDetails.ShowIdTimeTheater;
     const showtimePre = showidtime.find((seat) => seat.Time === formTime);
+    var showstatus=true
 
     if (showtimePre) {
       console.log("showtimePre", showtimePre.id);
+      showstatus=true
 
       var showtime = showtimePre.id;
       console.log("showtime", showtime);
     } else {
-      alert("Not show available");
+      showstatus=false
+
+      // alert("Not show available");
     }
     //       console.log("BookingDetails.ShowIdTimeTheater",BookingDetails.ShowIdTimeTheater)
     // console.log("showtime",showtime)
@@ -168,7 +172,7 @@ const Booking = () => {
                   value={formTime}
                   name="time"
                 >
-                  <option defaultValue>Select Time</option>
+                  <option >Select Time</option>
                   {/* {showidtime.map((e)=>{
                     <option value={e.id}>{e.Time}</option>
 
@@ -182,7 +186,11 @@ const Booking = () => {
           </div>
           <div className="row">
             <div className="col-lg-12 text-dark justify-content-center">
-              <div className="row mt-5">
+              
+              <div className={`row mt-5 ${showstatus?"d-none":""}`}>
+                <h3 className="text-danger">No Show Available at this Time!</h3>
+              </div>
+              <div className={`row mt-5 ${!showstatus?"d-none":""}`}>
                 {seats.map((seat_no) => {
                   // console.log(Reserved_seat.includes(seat_no))
                   return (
@@ -203,7 +211,7 @@ const Booking = () => {
           </div>
           <div className={`row mt-4 ${SeatBooked.length == 0 ? "d-none" : ""}`}>
             <div className="col-8 offset-4">
-              <table class="">
+              <table className="">
                 <tr>
                   <th scope="col">NAME</th>
                   <th scope="col">TICKET</th>
@@ -222,7 +230,7 @@ const Booking = () => {
               <button
                 type="button"
                 onClick={() => TicketBooking(showtime, SeatBooked)}
-                class="btn btn-outline-primary"
+                className="btn btn-outline-primary"
               >
                 Checkout
               </button>

@@ -1,11 +1,9 @@
-import React, { useState,useContext, useEffect, useRef } from "react";
-import AddMovie from "./Admin/AddMovie";
-import MovieItem from "./MovieItem";
+import React, { useContext, useEffect } from "react";
 import MovieContext from "../State/MovieContext";
 import MovieshowCase from "./MovieshowCase";
 function Home() {
   const context = useContext(MovieContext);
-  const { Movies, getMovies,editMovie } = context;
+  const { Movies, getMovies } = context;
 
   //Fetch All Moviews
   useEffect(() => {
@@ -14,7 +12,7 @@ function Home() {
 
   //   filter Mov
 const NotDele=Movies.filter((mov)=>{
-  return mov.IS_DELETE==false
+  return mov.IS_DELETE===false
 })
 
   return (

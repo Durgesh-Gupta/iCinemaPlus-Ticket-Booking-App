@@ -121,9 +121,7 @@ const MovieState = (props) => {
       });
       const json = await response.json();
       console.log(json);
-      {
-        alert("Ticket Booked!!!");
-      }
+      
     }
   };
 
@@ -183,8 +181,8 @@ const MovieState = (props) => {
 
   // Get All Details Require for Admin
   var [AllDetails, setAllDetails] = useState("");
-  const [MovIdName, setMovIdName] = useState([]);
-  const [showtime, setshowtime] = useState([]);
+  const [MovIdName] = useState([]);
+  const [showtime1, setshowtime] = useState([]);
 
   const AdminDetails = async () => {
     const response = await fetch(
@@ -217,9 +215,9 @@ const MovieState = (props) => {
 
     console.log(json);
 
-    const newshow = showtime
+    const newshow = showtime1
 
-    let objIndex = newshow.findIndex((obj) => obj._id == id);
+    let objIndex = newshow.findIndex((obj) => obj._id === id);
     console.log("Object",objIndex)
  
     //Update object's name property.
@@ -319,7 +317,7 @@ const MovieState = (props) => {
         updateShowTime,
         updateUserd,
         addShowtime,
-        showtime,
+        showtime1,
         setshowtime,
       }}
     >

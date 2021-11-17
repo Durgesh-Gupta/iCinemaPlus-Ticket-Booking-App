@@ -64,15 +64,19 @@ function NavBar() {
               </Link>
             </form>
           ) : (
-            <div>
+            <form form className="d-flex">
               <Link className="btn mx-2" to="/userDash" role="button">
                 <i className="bi bi-person-circle text-light"></i>{" "}
               </Link>
-
-              <button onClick={handleLogout} className="btn btn-primary">
+              <Link
+                onClick={handleLogout}
+                className="btn btn-primary mx-2"
+                to="/login"
+                role="button"
+              >
                 Logout
-              </button>
-            </div>
+              </Link>
+            </form>
           )}
         </div>
       </div>

@@ -5,7 +5,7 @@ import MovieContext from "../../State/MovieContext";
 const AddShowtime = () => {
   const context = useContext(MovieContext);
   const { AllDetails, deleteShow, updateShowTime, addShowtime } = context;
-  var { showtime } = context;
+  var showtime = context.showtime1;
   const tempmov = {};
   if (AllDetails) {
     console.log("import showtime",showtime)

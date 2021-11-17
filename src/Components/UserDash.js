@@ -5,12 +5,13 @@ import NowShowing from "./NowShowing";
 const UserDash = () => {
   const context = useContext(MovieContext);
   const { UserDetails, UserDetail,TicketCancel } = context;
+  var seat_arr=[]
 
   useEffect(() => {
     UserDetails();
   }, []);
   if (UserDetail) {
-    var seat_arr = UserDetail.seat;
+     seat_arr = UserDetail.seat;
     if(typeof seat_arr =="undefined" ){
       seat_arr=[
         {
@@ -26,7 +27,7 @@ console.log(UserDetail)
     console.log("seat_arr inside if", seat_arr);
   }
   else{
-    var seat_arr= [
+    seat_arr= [
         {
           "_id": false,
           "showtime": "No Booking",
@@ -54,7 +55,7 @@ console.log(UserDetail)
       <div className="row">
         <div className="col-8 offset-2">
           <h4>Booking</h4>
-          <table class="table">
+          <table className="table">
             <thead>
               <tr>
                 <th scope="col">#</th>
@@ -69,6 +70,7 @@ console.log(UserDetail)
                 return (
                   <tr>
                     <th scope="row"></th>
+                    <td>{seats.showtime}</td>
                     <td>{seats.showtime}</td>
                     <td>{seats.seat_no}</td>
                     <td ><span className={`CancleBtn ${seats._id?"":"d-none"}`} onClick={()=>hancleCancel(seats._id)}> Cancel Booking</span></td>

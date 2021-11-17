@@ -1,5 +1,4 @@
 import React, { useContext, useState } from "react";
-import { Link } from "react-router-dom";
 import MovieContext from "../State/MovieContext";
 import MovieshowCase from "./MovieshowCase";
 import Pagination from "./Pagination";
@@ -9,7 +8,7 @@ const NowShowing = () => {
   const { Movies } = context;
   const [Search, setSearch] = useState("");
   var Movie = Movies.filter((mov) => {
-    if (Search == "") {
+    if (Search === "") {
       return mov.status === "Current";
     } else if (mov.title.toLowerCase().includes(Search.toLowerCase())) {
       console.log(mov.title.toLowerCase().includes(Search.toLowerCase()));
@@ -33,7 +32,7 @@ const NowShowing = () => {
 
   //Paginamtion
   const [currentPage, setcurrentPage] = useState(1);
-  const [MovPerPage, setMovPerPage] = useState(2);
+  const [MovPerPage] = useState(2);
 
   const indexOfLast = currentPage * MovPerPage;
   const indexOfFirst = indexOfLast - MovPerPage;
