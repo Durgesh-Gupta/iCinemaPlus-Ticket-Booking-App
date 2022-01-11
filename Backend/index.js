@@ -1,12 +1,14 @@
 const express =require("express")
 const path=require("path")
 const app=express()
-const port = 5000
+const port = process.env.PORT || 5000
+const dotenv = require('dotenv')
 //connecting to Mongo
 const connectToMongo=require('./db')
 connectToMongo()
 //
 // app.set('view engine', 'ejs')
+dotenv.config({ path: './config.env' })
 
 var cors = require('cors')
 app.use(cors())
@@ -31,6 +33,16 @@ app.use("/api/booking",require("./Routes/Reservation"))
 app.get('/', (req, res) => {
   res.send('Hello World!')
 })
+
+// For Heroku
+if(process.env.Node_ENV==="production"){
+  app.use(express.static("client/build"))
+
+}
+
+
+
+// end heroku
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)

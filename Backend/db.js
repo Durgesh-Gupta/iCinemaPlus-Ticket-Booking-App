@@ -1,6 +1,7 @@
 const mongoose =require("mongoose")
+console.log("DBB----------",process.env.DB)
+const mongoURI=process.env.DB || "mongodb+srv://Durgesh10:Durgesh10@cluster0.jmbqs.mongodb.net/icinema?retryWrites=true&w=majority"
 
-const mongoURI="mongodb+srv://Durgesh10:Durgesh10@cluster0.jmbqs.mongodb.net/icinema?retryWrites=true&w=majority"
 
 const connectToMongo=()=>{
     mongoose.connect(mongoURI,()=>{
