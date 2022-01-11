@@ -30,9 +30,9 @@ app.use("/api/show",require("./Routes/Showtime"))
 app.use("/api/booking",require("./Routes/Reservation"))
 
 
-app.get('/', (req, res) => {
-  res.send('Hello World!')
-})
+// app.get('/', (req, res) => {
+//   res.send('Hello World!')
+// })
 
 // For Heroku
 if(process.env.Node_ENV==="production"){
