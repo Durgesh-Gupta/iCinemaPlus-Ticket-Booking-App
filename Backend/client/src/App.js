@@ -17,50 +17,50 @@ import AdminLogin from "./Components/Admin/AdminLogin";
 function App() {
   return (
     <MovieState>
-    <Router>
-      <Switch>
-        <Route exact path="/Admin">
-          <AdminLogin />
-        </Route>
-        <Route exact path="/AdminDash">
-          <AdminDash />
-        </Route>
-        <Route exact path="/">
+      <Router>
+      <NavBar />
+        <Switch>
           
-              <Router>
-                <NavBar />
-                <Switch>
-                  <Route exact path="/">
-                    <Home />
-                  </Route>
-                  <Route exact path="/NowShow">
-                    <NowShowing />
-                  </Route>
-                  <Route exact path="/ComingSoon">
-                    <ComingSoon />
-                  </Route>
-                  <Route exact path="/Cinemas">
-                    <Cinemas />
-                  </Route>
-                  <Route exact path="/login">
-                    <Login />
-                  </Route>
-                  <Route exact path="/signup">
-                    <SignUp />
-                  </Route>
-                  <Route exact path="/booking/:id">
-                    <Booking />
-                  </Route>
-                  <Route exact path="/userDash">
-                    <UserDash />
-                  </Route>
-                </Switch>
-              </Router>
-           
-        </Route>
-      </Switch>
-    </Router>
-          </MovieState>
+        <Router>
+            <Route exact path="/Admin">
+              <AdminLogin />
+            </Route>
+            <Route exact path="/AdminDash">
+              <AdminDash />
+            </Route>
+
+          
+              <Switch>
+                <Route exact path="/">
+                  <Home />
+                </Route>
+                <Route exact path="/NowShow">
+                  <NowShowing />
+                </Route>
+                <Route exact path="/ComingSoon">
+                  <ComingSoon />
+                </Route>
+                <Route exact path="/Cinemas">
+                  <Cinemas />
+                </Route>
+                <Route exact path="/login">
+                  <Login />
+                </Route>
+                <Route exact path="/signup">
+                  <SignUp />
+                </Route>
+                <Route exact path="/booking/:id">
+                  <Booking />
+                </Route>
+                <Route exact path="/userDash">
+                  <UserDash />
+                </Route>
+              </Switch>
+            </Router>
+          
+        </Switch>
+      </Router>
+    </MovieState>
   );
 }
 
