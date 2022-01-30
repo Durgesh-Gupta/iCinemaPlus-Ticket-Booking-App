@@ -30,9 +30,9 @@ app.use("/api/show",require("./Routes/Showtime"))
 app.use("/api/booking",require("./Routes/Reservation"))
 
 
-app.get('/', (req, res) => {
-  res.send('Welcome To ICinema Backend !')
-})
+// app.get('/', (req, res) => {
+//   res.send('Welcome To ICinema Backend !')
+// })
 
 // For Heroku
 // server static assets if in production
