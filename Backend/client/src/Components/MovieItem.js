@@ -13,7 +13,7 @@ const MovieItem = (props) => {
     <div className="col-4">
       <div className="card" style={{ width: "18rem" }}>
         <img
-          src={`http://localhost:5000/public/uploads/images/${movie.image}`}
+          src={`/public/uploads/images/${movie.image}`}
           className="card-img-top img-fluid poster"
           alt="Movie"
         />

@@ -7,7 +7,7 @@ const MovieshowCase = (props) => {
 
     return (
         <div className="card" style={{ width: "18rem" }}>
-      <img src={`http://localhost:5000/public/uploads/images/${movie.image}`} height="360px" className="card-img-top" alt="Movie" />
+      <img src={`/public/uploads/images/${movie.image}`} height="360px" className="card-img-top" alt="Movie" />
       <div className="card-body">
         <div className="d-flex align-items-center">
           <h5 className="card-title">{movie.title}</h5>
